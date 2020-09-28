@@ -1,0 +1,60 @@
+To do:
+
+# Documentation
+vizJunction: Update documentation
+
+# Function renaming
+locateSamples -> setupSamples: We are not just locating samples, but also providing information (such as organism).
+
+
+# Parameter renaming
+generateCandidateFilters|seqAcrossSj -> generateCandidateFilters|onlySpanning: Boolean, perhaps more clear parameter name?
+
+
+
+# Tasks and considerations
+- In the addKnownJunctions function, I need to look at how to handle 1:many mappings of identified junctions to known junctions. Example read D74RYQN1:328:C480EACXX:2:1308:16072:57559 = intron and D74RYQN1:328:C480EACXX:2:2306:9429:91923=shift right in ENCODE
+-- include a step before finding the nearest where I check which junction overlap with intron ends. Should ID overlap with known and intronic circles!
+- Fix package::function() syntax for all external functions
+- What type of license?
+- Package documentation in circulaR.r
+- support for chosing path for writing files!
+- Find a workaround for neglecting warnings when using tibble on "strange" tables. Now it is neglected by calling as.matrix or as.data.frame before tibbles
+- Determine how messages should be posted, especially with mclapply
+- describe columns returned by constructSJDB
+- describe new columns returned by addKnownJunction
+- use xxx != "YYY" instead of !(xxx == "YYY") when possible [KTK]
+- Use as.tibble instead of as_data_frame for clarity [KTK]
+- Linear figures converted to circular figures in workflow? [KTK]
+- Clean up DESCRIPTION
+-- Scan namespace for imports, update description accodingly. [KTK]
+-- Ensure that suggested is up to date [KTK]
+- Look at validations. If data has been read, then there is no reason to check if file exists.
+
+# Milestones
+- Cover the possible backsplice scenarios in workflow [Next milestone] [Spanning, Encompassing, One end coverage]
+- Cover library protocol and impact on chimeric reads (strandedness and swapping) in workflow [Later]
+- Using encompassing for circ quantification? [Later]
+- Read data manipulation column [Enhancement]
+- Convert novel circRNA to synthetic chromosome input for use in realignment with STAR [To discuss]
+- add possibility to select only a single backsplice junction to plot/highlight in the plotAll function
+- Coverage of non-shiftable/undetermined Backsplice candidates. -> enable explorative research of novel circRNAs [Enhancement]
+- mclapply to parLapply (https://www.r-bloggers.com/implementing-mclapply-on-windows-a-primer-on-embarrassingly-parallel-computation-on-multicore-systems-with-r/) [Enhancement]
+- put disk read tasks outside parallel tasks? [Optimization]
+
+## DONE
+# Tasks
+- Look at package dependencies!
+-- put DESCRIPTION imports in alphabetic order
+- Document ALL functions!
+- Define S4 class for holding data from a single sample?
+- Generate a minimal dataset for testing, vignettes, and documentation.
+- Determine whether to import dplyr or AnnotationDBI as complete pkg, for preventing "replacing select" warning on startup.
+- Replace data.frames and matrices (when possible) with tibbles
+
+# Milestones
+- Case-stuy of backsplice coverage used to ID potential novel circ-only exons in workflow [pre-Release]
+- - Implmement protocol specific options and document {swap = T/F: should be T for dUTP strand marking (Tru seq library preparation). For adapter tagged protocols (e.g. scriptseq library preparation) or manually swapped data, use F} [Next milestone]
+- Setup ambiguity support [Next milestone](dev)
+- Persistent storage of splice junction database? Something similar to what AnnotationHub does, i.e. write to a hidden folder in the users home dir.
+- Tidyverse should not be a dependency (maybe a suggestion as we use it in all vignette though)

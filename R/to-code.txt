@@ -1,0 +1,26 @@
+
+ * Improve @BSreadCoverage to vizjunction
+ ** Logical Then perform coverage calc and transform to GViz track
+ * @params in main functions e.g. locateSamples (firstreadFirstPair etc.)
+ * locateSamples firstreadFirstPair Logical if reverse or forwared sequence, NULL if unstranded
+ * knownJunctions into circulaR wrapper?
+ ** Implmement and check annotation object in wrapper (e.g. class = EnsDb)
+ *** If using BSGenome in base functions, implement reference sequence checker (genome(ref) %>% unique(.) == genome(ahdb), organism(ref) == organism(ahdb))
+ * readBSJdata: chromosome argument should be removed, and performed by user during annotation definition!
+ * readBSJdata: add motif column !OR! Make individual function (e.g. if other chimeric can't be "motiffed")
+ * FindOut: Is there a shiftable wrapper function??
+ * Make function for importing counts (utilise firstreadFirstStrand)
+ * Rename exp.mat (Expression matrix for circular RNA)
+ ** exp.mat: Throw error if summarizeBSJreads() missing (bsj.counts will be empty)
+ * STARlogParser: return argument does nothing!!!
+
+# Corrections
+ * Consistency when to return sample.id column (vs plain "sample")
+
+# Optimizations
+ * In assigners, add an validate = FALSE argument to circSample assigners
+ ** Add circExperiment validation, if bsj.reads not empty, colnames == c("X1", "X2" etc...)
+
+# QC's enhancements
+ * Function for plotting spanning vs encompassing
+ ** For statstics vizualisers, add returnData option

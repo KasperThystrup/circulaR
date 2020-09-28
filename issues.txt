@@ -1,0 +1,13 @@
+ISSUES
+
+in pruneChromosomes:
+it is not optimal to use "standard" in the chromosome parameter. c(1:22, "X", "Y") might only be valid for human. Remove this option of rename it to standard_hsa. The latter might open for standard_mus, standard_rno, ...
+
+
+general:
+any reason why KTK removes default values in functions?
+why was  db.type <- class(db) changed to attributes(class(db))$package. We are not checking which class but which package was used to construct it? That is not very specific (or am I missing something).
+
+shiftAlignment: Hsapiens hardcoded into function!!
+
+circExperiment@path no file exist check during validation!!!

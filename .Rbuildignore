@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^R/ignore/$
+^misc/kathka/$
+^misc/external_data/$
+^misc$
+^circulaR.git$
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^dev\*$
+^Manuscript\*$
