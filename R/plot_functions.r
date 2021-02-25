@@ -27,14 +27,14 @@
 #   nex <- lapply(ex, length)
 #
 #   # Make top viewport. A grid with one column and as many rows as transcripts to plot.
-#   top.vp <- viewport(layout = grid.layout(ntranscripts, 1))
-#   pushViewport(top.vp)
+#   top.vp <- grid::viewport(layout = grid::grid.layout(ntranscripts, 1))
+#   grid::pushViewport(top.vp)
 #
 #   # Make viewports for each intron in each transcript
 #   for(t in 1:ntranscripts){
 #     # Make viewport for transcript
-#     vp <- viewport(layout.pos.col = 1, layout.pos.row = t, name = names(ex)[t], xscale = rangex)
-#     pushViewport(vp)
+#     vp <- grid::viewport(layout.pos.col = 1, layout.pos.row = t, name = names(ex)[t], xscale = rangex)
+#     grid::pushViewport(vp)
 #
 #     int.widths <- BiocGenerics::width(int[[t]])
 #     for(i in 1:length(int[[t]])){
@@ -44,51 +44,51 @@
 #       x.boundaries <- c(BiocGenerics::start(int[[t]][i])-0.5, BiocGenerics::end(int[[t]][i])+0.5)
 #
 #       vp <- viewport(
-#         x = unit(x.boundaries[1], "native"),
+#         x = grid::unit(x.boundaries[1], "native"),
 #         y = 0.4,
-#         width = unit(diff(x.boundaries), "native"),
+#         width = grid::unit(diff(x.boundaries), "native"),
 #         height = 0.2,
 #         just = c("left", "bottom"),
 #         name = paste0(names(ex)[t], "_intron_",i)
 #       )
 #
-#       pushViewport(vp)
-#       #grid.rect(gp=gpar(col=colors()[sample(x = 2:length(colors()), size = 1)]))
-#       grid.lines(
-#         x = unit(c(0,1), "npc"),
-#         y = unit(0.5, "npc")
+#       grid::pushViewport(vp)
+#       #grid::grid.rect(gp=grid::gpar(col=colors()[sample(x = 2:length(colors()), size = 1)]))
+#       grid::grid.lines(
+#         x = grid::unit(c(0,1), "npc"),
+#         y = grid::unit(0.5, "npc")
 #       )
 #
 #       if(addChevrons){# Plot chevrons
 #         # Determine number of chevrons to plot
-#         size.of.intron.viewport <- convertUnit(unit(x.boundaries[2], "native") - unit(x.boundaries[1], "native"), unitTo = "cm")
-#         size.of.plot.area <- convertUnit(unit(rangex[2], "native") - unit(rangex[1], "native"), unitTo = "cm")
+#         size.of.intron.viewport <- grid::convertgrid::unit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
+#         size.of.plot.area <- grid::convertgrid::unit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
 #         rel.size <- as.numeric(size.of.intron.viewport)/as.numeric(size.of.plot.area)
 #         nc <- ceiling(rel.size / 0.04)
 #
 #         if(rel.size > 0.05){ # Exclude small int
 #           for(che in 1:(nc-1)){
 #             rel.x <- che/nc
-#             grid.lines(
-#               x = unit(c(rel.x, rel.x+0.001), "npc"),
-#               y = unit(c(0.5), "npc"),
-#               arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(GenomicRanges::strand(int[[t]]) == "+"), "last", "first"), type = "open")
+#             grid::grid.lines(
+#               x = grid::unit(c(rel.x, rel.x+0.001), "npc"),
+#               y = grid::unit(c(0.5), "npc"),
+#               arrow = grid::arrow(angle = 30, length = grid::unit(0.1, "inches"), ends = ifelse(all(GenomicRanges::strand(int[[t]]) == "+"), "last", "first"), type = "open")
 #             )
 #           }
 #         }
 #       }
-#       upViewport()
+#       grid::upViewport()
 #     }
 #
 #     # Plot the ex
-#     grid.rect(y = rep(0.5, nex[[t]]),
-#               x = unit(BiocGenerics::start(ex[[t]])-0.5, "native"),
-#               width = unit(apply(cbind(BiocGenerics::start(ex[[t]]), BiocGenerics::end(ex[[t]])),1,diff)+1, "native"),
-#               height = 0.6, just = "left", gp = gpar(fill = "steelblue")
+#     grid::grid.rect(y = rep(0.5, nex[[t]]),
+#               x = grid::unit(BiocGenerics::start(ex[[t]])-0.5, "native"),
+#               width = grid::unit(apply(cbind(BiocGenerics::start(ex[[t]]), BiocGenerics::end(ex[[t]])),1,diff)+1, "native"),
+#               height = 0.6, just = "left", gp = grid::gpar(fill = "steelblue")
 #     )
-#     upViewport()
+#     grid::upViewport()
 #   }
-#   popViewport()
+#   grid::popViewport()
 # }
 
 #' Plot transcript models.
@@ -102,6 +102,7 @@
 #' @export
 #' @importFrom AnnotationDbi select
 #' @importFrom magrittr %>%
+#' @importFrom grid arrow convertUnit gpar grid.layout grid.lines grid.rect popViewport pushViewport unit upViewport viewport
 plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, rangex = NULL) { # Add option to define transcripts to plot, tx = NULL
   if(is.null(db)){stop("Need a database of transcripts.")}
   if(!class(db) %in% c("TxDb")){stop("Database of transcripts should be made using GenomicFeatures.")}
@@ -135,14 +136,14 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
   nex <- lapply(ex, length)
 
   # Make top viewport. A grid with one column and as many rows as transcripts to plot.
-  top.vp <- viewport(layout = grid.layout(ntranscripts, 1))
-  pushViewport(top.vp)
+  top.vp <- grid::viewport(layout = grid::grid.layout(ntranscripts, 1))
+  grid::pushViewport(top.vp)
 
   # Make viewports for each intron in each transcript
   for(t in 1:ntranscripts){
     # Make viewport for transcript
-    vp <- viewport(layout.pos.col = 1, layout.pos.row = t, name = names(ex)[t], xscale = rangex)
-    pushViewport(vp)
+    vp <- grid::viewport(layout.pos.col = 1, layout.pos.row = t, name = names(ex)[t], xscale = rangex)
+    grid::pushViewport(vp)
 
     if(names(ex)[t] %in% names(int)){ # If there is an intron in the transcript, then plot it!
       int.widths <- BiocGenerics::width(int[[t]])
@@ -153,52 +154,52 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
         x.boundaries <- c(BiocGenerics::start(int[[t]][i])-0.5, BiocGenerics::end(int[[t]][i])+0.5)
 
         vp <- viewport(
-          x = unit(x.boundaries[1], "native"),
+          x = grid::unit(x.boundaries[1], "native"),
           y = 0.4,
-          width = unit(diff(x.boundaries), "native"),
+          width = grid::unit(diff(x.boundaries), "native"),
           height = 0.2,
           just = c("left", "bottom"),
           name = paste0(names(ex)[t], "_intron_",i)
         )
 
-        pushViewport(vp)
-        #grid.rect(gp=gpar(col=colors()[sample(x = 2:length(colors()), size = 1)]))
-        grid.lines(
-          x = unit(c(0,1), "npc"),
-          y = unit(0.5, "npc")
+        grid::pushViewport(vp)
+        #grid::grid.rect(gp=grid::gpar(col=colors()[sample(x = 2:length(colors()), size = 1)]))
+        grid::grid.lines(
+          x = grid::unit(c(0,1), "npc"),
+          y = grid::unit(0.5, "npc")
         )
 
         if(addChevrons){# Plot chevrons
           # Determine number of chevrons to plot
-          size.of.intron.viewport <- convertUnit(unit(x.boundaries[2], "native") - unit(x.boundaries[1], "native"), unitTo = "cm")
-          size.of.plot.area <- convertUnit(unit(rangex[2], "native") - unit(rangex[1], "native"), unitTo = "cm")
+          size.of.intron.viewport <- grid::convertgrid::unit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
+          size.of.plot.area <- grid::convertgrid::unit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
           rel.size <- as.numeric(size.of.intron.viewport)/as.numeric(size.of.plot.area)
           nc <- ceiling(rel.size / 0.04)
 
           if(rel.size > 0.05){ # Exclude small int
             for(che in 1:(nc-1)){
               rel.x <- che/nc
-              grid.lines(
-                x = unit(c(rel.x, rel.x+0.001), "npc"),
-                y = unit(c(0.5), "npc"),
-                arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(GenomicRanges::strand(int[[t]]) == "+"), "last", "first"), type = "open")
+              grid::grid.lines(
+                x = grid::unit(c(rel.x, rel.x+0.001), "npc"),
+                y = grid::unit(c(0.5), "npc"),
+                arrow = grid::arrow(angle = 30, length = grid::unit(0.1, "inches"), ends = ifelse(all(GenomicRanges::strand(int[[t]]) == "+"), "last", "first"), type = "open")
               )
             }
           }
         }
-        upViewport()
+        grid::upViewport()
       }
     }
 
     # Plot the ex
-    grid.rect(y = rep(0.5, nex[[t]]),
-              x = unit(BiocGenerics::start(ex[[t]])-0.5, "native"),
-              width = unit(apply(cbind(BiocGenerics::start(ex[[t]]), BiocGenerics::end(ex[[t]])),1,diff)+1, "native"),
-              height = 0.6, just = "left", gp = gpar(fill = "steelblue")
+    grid::grid.rect(y = rep(0.5, nex[[t]]),
+              x = grid::unit(BiocGenerics::start(ex[[t]])-0.5, "native"),
+              width = grid::unit(apply(cbind(BiocGenerics::start(ex[[t]]), BiocGenerics::end(ex[[t]])),1,diff)+1, "native"),
+              height = 0.6, just = "left", gp = grid::gpar(fill = "steelblue")
     )
-    upViewport()
+    grid::upViewport()
   }
-  popViewport()
+  grid::popViewport()
 }
 
 #' Plot transcript models.
@@ -212,6 +213,7 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
 #' @export
 #' @importFrom AnnotationDbi select
 #' @importFrom magrittr %>%
+#' @importFrom grid arrow convertUnit gpar grid.layout grid.lines grid.rect popViewport pushViewport unit upViewport viewport
 plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, rangex = NULL) { # Add option to define transcripts to plot, tx = NULL
   if(is.null(db)){stop("Need a database of transcripts.")}
   if(!class(db) %in% c("EnsDb")){stop("Database of transcripts should be EnsDb from AnnotationHub.")}
@@ -244,15 +246,15 @@ plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, ran
   nex <- ex %>% dplyr::group_by(TXNAME) %>% dplyr::summarise(no.ex = length(EXONID))
 
   # Make top viewport. A grid with one column and as many rows as transcripts to plot.
-  top.vp <- viewport(layout = grid.layout(ntranscripts, 1))
-  pushViewport(top.vp)
+  top.vp <- grid::viewport(layout = grid::grid.layout(ntranscripts, 1))
+  grid::pushViewport(top.vp)
 
   # Make viewports for each intron in each transcript
   for(t in 1:ntranscripts){
     tx <- unique(ex$TXNAME)[t]
     # Make viewport for transcript
-    vp <- viewport(layout.pos.col = 1, layout.pos.row = t, name = tx, xscale = rangex)
-    pushViewport(vp)
+    vp <- grid::viewport(layout.pos.col = 1, layout.pos.row = t, name = tx, xscale = rangex)
+    grid::pushViewport(vp)
     tmp.tx <- subset(ex, TXNAME == tx)
 
     if(nrow(tmp.tx) >= 2){ # If there are 2 or more exons, plot the intron!
@@ -270,52 +272,52 @@ plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, ran
         x.boundaries <- as.double(tmp.int[i,]) + c(-0.5, 0.5)
 
         vp <- viewport(
-          x = unit(x.boundaries[1], "native"),
+          x = grid::unit(x.boundaries[1], "native"),
           y = 0.4,
-          width = unit(diff(x.boundaries), "native"),
+          width = grid::unit(diff(x.boundaries), "native"),
           height = 0.2,
           just = c("left", "bottom"),
           name = paste0(tx, "_intron_",i)
         )
 
-        pushViewport(vp)
-        #grid.rect(gp=gpar(col=colors()[sample(x = 2:length(colors()), size = 1)]))
-        grid.lines(
-          x = unit(c(0,1), "npc"),
-          y = unit(0.5, "npc")
+        grid::pushViewport(vp)
+        #grid::grid.rect(gp=grid::gpar(col=colors()[sample(x = 2:length(colors()), size = 1)]))
+        grid::grid.lines(
+          x = grid::unit(c(0,1), "npc"),
+          y = grid::unit(0.5, "npc")
         )
 
         if(showDirection){# Plot chevrons
           # Determine number of chevrons to plot
-          size.of.intron.viewport <- convertUnit(unit(x.boundaries[2], "native") - unit(x.boundaries[1], "native"), unitTo = "cm")
-          size.of.plot.area <- convertUnit(unit(rangex[2], "native") - unit(rangex[1], "native"), unitTo = "cm")
+          size.of.intron.viewport <- grid::convertgrid::unit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
+          size.of.plot.area <- grid::convertgrid::unit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
           rel.size <- as.numeric(size.of.intron.viewport)/as.numeric(size.of.plot.area)
           nc <- ceiling(rel.size / 0.04)
 
           if(rel.size > 0.05){ # Exclude small int
             for(che in 1:(nc-1)){
               rel.x <- che/nc
-              grid.lines(
-                x = unit(c(rel.x, rel.x+0.001), "npc"),
-                y = unit(c(0.5), "npc"),
-                arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(ex$SEQSTRAND == 1), "last", "first"), type = "open")
+              grid::grid.lines(
+                x = grid::unit(c(rel.x, rel.x+0.001), "npc"),
+                y = grid::unit(c(0.5), "npc"),
+                arrow = grid::arrow(angle = 30, length = grid::unit(0.1, "inches"), ends = ifelse(all(ex$SEQSTRAND == 1), "last", "first"), type = "open")
               )
             }
           }
         }
-        upViewport()
+        grid::upViewport()
       }
     }
 
     # Plot the ex
-    grid.rect(y = rep(0.5, nrow(tmp.tx)),
-              x = unit(tmp.tx$EXONSEQSTART-0.5, "native"),
-              width = unit(apply(tmp.tx[,c("EXONSEQSTART", "EXONSEQEND")],1,diff)+1, "native"),
-              height = 0.6, just = "left", gp = gpar(fill = "steelblue")
+    grid::grid.rect(y = rep(0.5, nrow(tmp.tx)),
+              x = grid::unit(tmp.tx$EXONSEQSTART-0.5, "native"),
+              width = grid::unit(apply(tmp.tx[,c("EXONSEQSTART", "EXONSEQEND")],1,diff)+1, "native"),
+              height = 0.6, just = "left", gp = grid::gpar(fill = "steelblue")
     )
-    upViewport()
+    grid::upViewport()
   }
-  popViewport()
+  grid::popViewport()
 }
 
 
@@ -328,6 +330,7 @@ plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, ran
 #' @param rangex see plotTranscripts
 #'
 #' @importFrom BiocGenerics start end
+#' @importFrom grid gpar grid.bezier grid.rect grid.text popViewport pushViewport unit viewport
 #' @export
 plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
   if(is.null(df)){stop("Please input some data.")}
@@ -339,9 +342,9 @@ plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
   df <- df[df$read.count.unique != 0,]
 
   if(length(df) == 0){
-    pushViewport(viewport())
-    grid.rect(gp = gpar(col = "grey"))
-    grid.text("No linear splice junctions in this region")
+    grid::pushViewport(viewport())
+    grid::grid.rect(gp = grid::gpar(col = "grey"))
+    grid::grid.text("No linear splice junctions in this region")
   } else {
     # Scale height to length of junction. Height should be in the range [0.1 , 0.95].
     # The min value should be determined by the number of junctions to plot
@@ -370,15 +373,15 @@ plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
     levels(lw) <- seq(from = 1, to = 11, by = 2)
     df$w <- as.integer(as.character(lw))
 
-    pushViewport(viewport(xscale = rangex))
+    grid::pushViewport(grid::viewport(xscale = rangex))
 
     for (i in 1:length(df)) {
-      x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
-      y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
+      x <- grid::unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
+      y <- grid::unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
-      grid.bezier(x, y, gp=gpar(lwd = df$w[i], lex = line.scaling, col = "blue"))
+      grid::grid.bezier(x, y, gp=grid::gpar(lwd = df$w[i], lex = line.scaling, col = "blue"))
     }
-    popViewport()
+    grid::popViewport()
   }
 }
 
@@ -387,15 +390,16 @@ plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
 #' @param df yada yada yada
 #' @param line.scaling Factor for overall scaling of line widths.
 #' @param rangex see plotTranscripts
+#' @importFrom grid gpar grid.rect grid.text grid.xspline popViewport pushViewport unit viewport
 #' @export
 plotBSJ <- function(df = NULL, rangex, line.scaling = 0.5) {
   if(is.null(df)){stop("Please input some data.")}
   if(class(df) != "GRanges"){stop("Please provide a GRanges object!")}
 
   if(length(df) == 0){
-    pushViewport(viewport())
-    grid.rect(gp = gpar(col = "grey"))
-    grid.text("No backsplice junctions in this region")
+    grid::pushViewport(viewport())
+    grid::grid.rect(gp = grid::gpar(col = "grey"))
+    grid::grid.text("No backsplice junctions in this region")
   } else {
     # Scale height to length of junction. Height should be in the range [0.15 , 0.85].
     if(length(df) > 1){
@@ -424,16 +428,16 @@ plotBSJ <- function(df = NULL, rangex, line.scaling = 0.5) {
     levels(lw) <- seq(from = 1, to = 11, by = 2)
     df$w <- as.integer(as.character(lw))
 
-    pushViewport(viewport(xscale = rangex))
+    grid::pushViewport(grid::viewport(xscale = rangex))
 
     for (i in 1:length(df)) {
-      x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
-      y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
+      x <- grid::unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
+      y <- grid::unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
-      grid.xspline(x, y, shape=c(0, 1, 1, 0), open=TRUE, gp=gpar(lwd = df$w[i], lex = line.scaling, col = "red"))
-      #grid.bezier(x, y, gp=gpar(lwd = df$w[i], lex = line.scaling))
+      grid::grid.xspline(x, y, shape=c(0, 1, 1, 0), open=TRUE, gp=grid::gpar(lwd = df$w[i], lex = line.scaling, col = "red"))
+      #grid::grid.bezier(x, y, gp=grid::gpar(lwd = df$w[i], lex = line.scaling))
     }
-    popViewport()
+    grid::popViewport()
   }
 }
 
@@ -443,7 +447,7 @@ plotBSJ <- function(df = NULL, rangex, line.scaling = 0.5) {
 #' @param rid Name of read to focus on
 #' @param size Number of nucleotides adjacent to the junctions
 #' @param l.fontsize Sice of the font used for legend
-#' @import grid
+#' @importFrom grid gpar grid.clip grid.layout grid.newpage grid.points grid.rect grid.text pushViewport unit upViewport viewport
 #' @importFrom BiocGenerics sort
 #' @importFrom GenomicRanges GRanges
 #' @export
@@ -509,168 +513,168 @@ plotBSJrepeats <- function(df = candidate.bsj, rid = NULL, size = 10, l.fontsize
   do.region <- (r$X5-size):(r$X5+size)
 
   # Setup plot area
-  vp.ac <- viewport(x = 0, y = 1, w = 0.49, h = 1, just = c("left", "top"), name = "acceptor")
-  vp.do <- viewport(x = 0.51, y = 1, w = 0.49, h = 1, just = c("left", "top"), name = "donor")
+  vp.ac <- grid::viewport(x = 0, y = 1, w = 0.49, h = 1, just = c("left", "top"), name = "acceptor")
+  vp.do <- grid::viewport(x = 0.51, y = 1, w = 0.49, h = 1, just = c("left", "top"), name = "donor")
 
-  grid.newpage()
+  grid::grid.newpage()
   ### Acceptor
-  pushViewport(vp.ac)
-  grid.rect()
+  grid::pushViewport(vp.ac)
+  grid::grid.rect()
 
-  vp.junc <- viewport(x = 0, y = 1, w = 1, h = 0.4, just = c("left", "top"), name = "juncs", xscale = range(ac.region))
-  vp.tx   <- viewport(x = 0, y = 0.6, w = 1, h = 0.4, just = c("left", "top"), name = "tx", xscale = range(ac.region))
-  vp.seq <- viewport(x = 0, y = 0.2, w = 1, h = 0.2, just = c("left", "top"), name = "seq", xscale = range(ac.region))
+  vp.junc <- grid::viewport(x = 0, y = 1, w = 1, h = 0.4, just = c("left", "top"), name = "juncs", xscale = range(ac.region))
+  vp.tx   <- grid::viewport(x = 0, y = 0.6, w = 1, h = 0.4, just = c("left", "top"), name = "tx", xscale = range(ac.region))
+  vp.seq <- grid::viewport(x = 0, y = 0.2, w = 1, h = 0.2, just = c("left", "top"), name = "seq", xscale = range(ac.region))
 
   # Plot DNA strands
   s <- Hsapiens[[r$X1]][ac.region]
   sc <- complement(s)
 
-  pushViewport(vp.seq)
-  vp.s <- viewport(layout = grid.layout(nrow = 2, ncol = length(s)))
-  pushViewport(vp.s)
+  grid::pushViewport(vp.seq)
+  vp.s <- grid::viewport(layout = grid::grid.layout(nrow = 2, ncol = length(s)))
+  grid::pushViewport(vp.s)
   for(i in 1:length(s)){
-    pushViewport(viewport(layout.pos.row = 1, layout.pos.col = i))
+    grid::pushViewport(grid::viewport(layout.pos.row = 1, layout.pos.col = i))
     if(i %in% l.pos & r$X3 == "+"){
-      grid.rect(height = 0.8, gp = gpar(col = "red", fill = "red"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "red", fill = "red"))
     }
     if(i %in% r.pos & r$X3 == "+"){
-      grid.rect(height = 0.8, gp = gpar(col = "green", fill = "green"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "green", fill = "green"))
     }
-    grid.text(label = as.character(s[i]), gp = gpar(col = ifelse(r$X3 == "+", "black", "grey85")))
-    upViewport()
-    pushViewport(viewport(layout.pos.row = 2, layout.pos.col = i))
+    grid::grid.text(label = as.character(s[i]), gp = grid::gpar(col = ifelse(r$X3 == "+", "black", "grey85")))
+    grid::upViewport()
+    grid::pushViewport(grid::viewport(layout.pos.row = 2, layout.pos.col = i))
     if(i %in% l.pos & r$X3 == "-"){
-      grid.rect(height = 0.8, gp = gpar(col = "red", fill = "red"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "red", fill = "red"))
     }
     if(i %in% r.pos & r$X3 == "-"){
-      grid.rect(height = 0.8, gp = gpar(col = "green", fill = "green"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "green", fill = "green"))
     }
-    grid.text(label = as.character(sc[i]), gp = gpar(col = ifelse(r$X3 == "+", "grey85", "black")))
-    upViewport()
+    grid::grid.text(label = as.character(sc[i]), gp = grid::gpar(col = ifelse(r$X3 == "+", "grey85", "black")))
+    grid::upViewport()
   }
-  upViewport()
-  upViewport()
+  grid::upViewport()
+  grid::upViewport()
 
-  pushViewport(vp.tx)
-  grid.rect(gp = gpar(col = "grey"))
-  grid.clip()
+  grid::pushViewport(vp.tx)
+  grid::grid.rect(gp = grid::gpar(col = "grey"))
+  grid::grid.clip()
   plotTranscripts(ex = ex, int = int, rangex = range(ac.region), addChevrons = F)
   # for(i in 1:length(int)){ # Add acceptor and donor sites
-  #   pushViewport(viewport(layout.pos.col=1, layout.pos.row=i, xscale = range(ac.region)))
-  #   grid.points(
-  #     x = tmp<-unit(c(BiocGenerics::start(int[[i]]), BiocGenerics::end(int[[i]])), units = "native"),
-  #     y = unit(rep(0.5, length(tmp)), "npc"),
+  #   grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=i, xscale = range(ac.region)))
+  #   grid::grid.points(
+  #     x = tmp<-grid::unit(c(BiocGenerics::start(int[[i]]), BiocGenerics::end(int[[i]])), units = "native"),
+  #     y = grid::unit(rep(0.5, length(tmp)), "npc"),
   #     pch="x")
-  #   upViewport()
+  #   grid::upViewport()
   # }
-  upViewport()
+  grid::upViewport()
 
-  pushViewport(vp.junc)
-  grid.clip()
-  grid.points(x = unit(r$X2, "native"), y = unit(0.3, "npc"), pch=16)
-  #upViewport()
+  grid::pushViewport(vp.junc)
+  grid::grid.clip()
+  grid::grid.points(x = grid::unit(r$X2, "native"), y = grid::unit(0.3, "npc"), pch=16)
+  #grid::upViewport()
 
   # Plot fragments
   et <- r$X12
   to <- r$X14
 
-  grid.rect(
-    x = unit(r$X11-0.5, "native"),
-    y = unit(0.1, "npc"),
-    width = unit(parseCIGAR(r$X12, returnLength = T), "native"),
-    height = unit(0.1, "npc"), just = "left", gp = gpar(fill = "chartreuse")
+  grid::grid.rect(
+    x = grid::unit(r$X11-0.5, "native"),
+    y = grid::unit(0.1, "npc"),
+    width = grid::unit(parseCIGAR(r$X12, returnLength = T), "native"),
+    height = grid::unit(0.1, "npc"), just = "left", gp = grid::gpar(fill = "chartreuse")
   )
 
   # Plot second fragment
-  grid.rect(
-    x = unit(r$X13-0.5, "native"),
-    y = unit(0.3, "npc"),
-    width = unit(parseCIGAR(r$X14, returnLength = T), "native"),
-    height = unit(0.1, "npc"), just = "left", gp = gpar(fill = "steelblue")
+  grid::grid.rect(
+    x = grid::unit(r$X13-0.5, "native"),
+    y = grid::unit(0.3, "npc"),
+    width = grid::unit(parseCIGAR(r$X14, returnLength = T), "native"),
+    height = grid::unit(0.1, "npc"), just = "left", gp = grid::gpar(fill = "steelblue")
   )
 
 
-  #pushViewport(vp.junc)
+  #grid::pushViewport(vp.junc)
   l <- paste0("Backsplice acceptor\n", l.extra, "\nreadID: ",rid)
-  grid.text(x=0.5, y = 0.8, label = l, gp = gpar(fontsize = l.fontsize))
-  upViewport()
+  grid::grid.text(x=0.5, y = 0.8, label = l, gp = grid::gpar(fontsize = l.fontsize))
+  grid::upViewport()
 
-  upViewport()
+  grid::upViewport()
 
   ### Donor
-  pushViewport(vp.do)
-  grid.rect()
+  grid::pushViewport(vp.do)
+  grid::grid.rect()
 
-  vp.junc <- viewport(x = 0, y = 1, w = 1, h = 0.4, just = c("left", "top"), name = "juncs", xscale = range(do.region))
-  vp.tx   <- viewport(x = 0, y = 0.6, w = 1, h = 0.4, just = c("left", "top"), name = "tx", xscale = range(do.region))
-  vp.seq <- viewport(x = 0, y = 0.2, w = 1, h = 0.2, just = c("left", "top"), name = "seq", xscale = range(do.region))
+  vp.junc <- grid::viewport(x = 0, y = 1, w = 1, h = 0.4, just = c("left", "top"), name = "juncs", xscale = range(do.region))
+  vp.tx   <- grid::viewport(x = 0, y = 0.6, w = 1, h = 0.4, just = c("left", "top"), name = "tx", xscale = range(do.region))
+  vp.seq <- grid::viewport(x = 0, y = 0.2, w = 1, h = 0.2, just = c("left", "top"), name = "seq", xscale = range(do.region))
 
   # Plot DNA strands
   s <- Hsapiens[[r$X1]][do.region]
   sc <- complement(s)
 
-  pushViewport(vp.seq)
-  vp.s <- viewport(layout = grid.layout(nrow = 2, ncol = length(s)))
-  pushViewport(vp.s)
+  grid::pushViewport(vp.seq)
+  vp.s <- grid::viewport(layout = grid::grid.layout(nrow = 2, ncol = length(s)))
+  grid::pushViewport(vp.s)
   for(i in 1:length(s)){
-    pushViewport(viewport(layout.pos.row = 1, layout.pos.col = i))
+    grid::pushViewport(grid::viewport(layout.pos.row = 1, layout.pos.col = i))
     if(i %in% (l.pos+ifelse(r$X3 == "+", 1, -1)) & r$X3 == "+"){
-      grid.rect(height = 0.8, gp = gpar(col = "red", fill = "red"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "red", fill = "red"))
     }
     if(i %in% (r.pos+ifelse(r$X3 == "+", 1, -1)) & r$X3 == "+"){
-      grid.rect(height = 0.8, gp = gpar(col = "green", fill = "green"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "green", fill = "green"))
     }
-    grid.text(label = as.character(s[i]), gp = gpar(col = ifelse(r$X3 == "+", "black", "grey85")))
-    upViewport()
-    pushViewport(viewport(layout.pos.row = 2, layout.pos.col = i))
+    grid::grid.text(label = as.character(s[i]), gp = grid::gpar(col = ifelse(r$X3 == "+", "black", "grey85")))
+    grid::upViewport()
+    grid::pushViewport(grid::viewport(layout.pos.row = 2, layout.pos.col = i))
     if(i %in% (l.pos+ifelse(r$X3 == "+", 1, -1)) & r$X3 == "-"){
-      grid.rect(height = 0.8, gp = gpar(col = "red", fill = "red"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "red", fill = "red"))
     }
     if(i %in% (r.pos+ifelse(r$X3 == "+", 1, -1)) & r$X3 == "-"){
-      grid.rect(height = 0.8, gp = gpar(col = "green", fill = "green"))
+      grid::grid.rect(height = 0.8, gp = grid::gpar(col = "green", fill = "green"))
     }
-    grid.text(label = as.character(sc[i]), gp = gpar(col = ifelse(r$X3 == "+", "grey85", "black")))
-    upViewport()
+    grid::grid.text(label = as.character(sc[i]), gp = grid::gpar(col = ifelse(r$X3 == "+", "grey85", "black")))
+    grid::upViewport()
   }
-  upViewport()
-  upViewport()
+  grid::upViewport()
+  grid::upViewport()
 
-  pushViewport(vp.tx)
-  grid.rect(gp = gpar(col = "grey"))
-  grid.clip()
+  grid::pushViewport(vp.tx)
+  grid::grid.rect(gp = grid::gpar(col = "grey"))
+  grid::grid.clip()
   plotTranscripts(ex = ex, int = int, rangex = range(do.region), addChevrons = F)
-  upViewport()
+  grid::upViewport()
 
-  pushViewport(vp.junc)
-  grid.clip()
-  grid.points(x = unit(r$X5, "native"), y = unit(0.1, "npc"), pch=1)
-  #upViewport()
+  grid::pushViewport(vp.junc)
+  grid::grid.clip()
+  grid::grid.points(x = grid::unit(r$X5, "native"), y = grid::unit(0.1, "npc"), pch=1)
+  #grid::upViewport()
 
   # Plot fragments
   et <- r$X12
   to <- r$X14
 
-  grid.rect(
-    x = unit(r$X11-0.5, "native"),
-    y = unit(0.1, "npc"),
-    width = unit(parseCIGAR(r$X12, returnLength = T), "native"),
-    height = unit(0.1, "npc"), just = "left", gp = gpar(fill = "chartreuse")
+  grid::grid.rect(
+    x = grid::unit(r$X11-0.5, "native"),
+    y = grid::unit(0.1, "npc"),
+    width = grid::unit(parseCIGAR(r$X12, returnLength = T), "native"),
+    height = grid::unit(0.1, "npc"), just = "left", gp = grid::gpar(fill = "chartreuse")
   )
 
   # Plot second fragment
-  grid.rect(
-    x = unit(r$X13-0.5, "native"),
-    y = unit(0.3, "npc"),
-    width = unit(parseCIGAR(r$X14, returnLength = T), "native"),
-    height = unit(0.1, "npc"), just = "left", gp = gpar(fill = "chartreuse")
+  grid::grid.rect(
+    x = grid::unit(r$X13-0.5, "native"),
+    y = grid::unit(0.3, "npc"),
+    width = grid::unit(parseCIGAR(r$X14, returnLength = T), "native"),
+    height = grid::unit(0.1, "npc"), just = "left", gp = grid::gpar(fill = "chartreuse")
   )
 
-  #pushViewport(vp.junc)
+  #grid::pushViewport(vp.junc)
   l <- paste0("Backsplice donor\n", l.extra, "\nreadID: ",rid)
-  grid.text(x=0.5, y = 0.8, label = l, gp = gpar(fontsize = l.fontsize))
-  upViewport()
+  grid::grid.text(x=0.5, y = 0.8, label = l, gp = grid::gpar(fontsize = l.fontsize))
+  grid::upViewport()
 
-  upViewport()
+  grid::upViewport()
 }
 
 #' Make homemade sashimi plot
@@ -681,44 +685,45 @@ plotBSJrepeats <- function(df = candidate.bsj, rid = NULL, size = 10, l.fontsize
 #' @param sj Linear splice junction data (output from readSJ)
 #' @param bsj Backsplice junction data (output from readBSJ)
 #' @param region GRanges object describing the region of interest
-#' @param gid Ensembl gene id to plot
+#' @param gid Ensembl gene id to plot grid.newpage
+#' @importFrom grid downViewport pushViewport upViewport viewport
 #' @export
 plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.interest, gid = g, ...){
   st <- as.character(unique(GenomicRanges::strand(bsj)))
 
-  vp.upper <- viewport(x = 0, y = 1, w = 1, h = 1/3, just = c("left", "top"), name = "upper")
-  vp.tx <- viewport(x = 0, y = 2/3, w = 1, h = 1/3, just = c("left", "top"), name = "tx")
-  vp.lower <- viewport(x = 0, y = 1/3, w = 1, h = 1/3, just = c("left", "top"), name = "lower")
+  vp.upper <- grid::viewport(x = 0, y = 1, w = 1, h = 1/3, just = c("left", "top"), name = "upper")
+  vp.tx <- grid::viewport(x = 0, y = 2/3, w = 1, h = 1/3, just = c("left", "top"), name = "tx")
+  vp.lower <- grid::viewport(x = 0, y = 1/3, w = 1, h = 1/3, just = c("left", "top"), name = "lower")
 
   # Initialize viewports
-  grid.newpage()
-  pushViewport(vp.upper)
-  upViewport()
-  pushViewport(vp.tx)
-  upViewport()
-  pushViewport(vp.lower)
-  upViewport()
+  grid::grid.newpage()
+  grid::pushViewport(vp.upper)
+  grid::upViewport()
+  grid::pushViewport(vp.tx)
+  grid::upViewport()
+  grid::pushViewport(vp.lower)
+  grid::upViewport()
 
 
   xlim <- c(BiocGenerics::start(region), BiocGenerics::end(region))
   #g <- subsetByOverlaps(genes(db), region)
 
   # Plot transcripts
-  downViewport("tx")
-  #grid.rect(gp = gpar(col = "grey"))
+  grid::downViewport("tx")
+  #grid::grid.rect(gp = grid::gpar(col = "grey"))
   plotTxModels(db = DB, g = gid, rangex = xlim)
-  upViewport()
+  grid::upViewport()
 
   # If transcript is on plus strand, then plot linear junction in upper panel and backsplice junctions in lower panel, else vice versa
   o <- switch(as.character(GenomicRanges::strand(region)), "+" = c("upper", "lower"), "-" = c("lower", "upper"))
 
-  downViewport(o[1])
+  grid::downViewport(o[1])
   plotSJ(df = subsetByOverlaps(sj, region), rangex = xlim)
-  upViewport()
+  grid::upViewport()
 
-  downViewport(o[2])
+  grid::downViewport(o[2])
   plotBSJ(df = subsetByOverlaps(bsj, region), rangex = xlim)
-  upViewport()
+  grid::upViewport()
 }
 
 
@@ -726,16 +731,18 @@ plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.
 #'
 #' @param df GRanges object returned by calcCoverage
 #' @param rangex The range in genomic coordinates for the region of interest. This is important for correct alignment of the tx model plot with splice junction plot.
+#'
+#' @importFrom grid grid.lines pushViewport unit upViewport viewport
 #' @export
 plotCoverage <- function(df = NULL, rangex){
   rangey = c(0,max(df$cov)*1.1)
 
   # Make top viewport
-  pushViewport(viewport(xscale = rangex, yscale = rangey))
+  grid::pushViewport(grid::viewport(xscale = rangex, yscale = rangey))
   for(i in 1:length(df)){
-    grid.lines(x = unit(rep(BiocGenerics::start(df)[i],2), units = "native"), y = unit(c(0, df$cov[i]), unit = "native"))
+    grid::grid.lines(x = grid::unit(rep(BiocGenerics::start(df)[i],2), units = "native"), y = grid::unit(c(0, df$cov[i]), unit = "native"))
   }
-  upViewport()
+  grid::upViewport()
 }
 
 
@@ -745,13 +752,14 @@ plotCoverage <- function(df = NULL, rangex){
 #' @param sj Data on linear splice sites. Should be a GRanges object returned by readSJout. Ideally, the data should be restricted to the genomic reange of a single gene (e.g. GenomicFeatures::subsetByOverlaps(sj, region.of.intereset, type = "within")).
 #'
 #' @importFrom Gviz CustomTrack
+#' @importFrom grid gpar grid.bezier grid.text unit
 #' @export
 SJTrack <- function(sj = NULL){
   ctrack <- Gviz::CustomTrack(
     plottingFunction = function(GdObject, prepare, df = sj) {
       if(length(df) == 0){
         if(!prepare){
-          grid.text("No linear splice junctions in this region")
+          grid::grid.text("No linear splice junctions in this region")
         }
         return(invisible(GdObject))
       } else {
@@ -796,10 +804,10 @@ SJTrack <- function(sj = NULL){
           df$w <- log(df$read.count.unique+1.2, 2)
 
           for (i in 1:length(df)) {
-            x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
-            y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
+            x <- grid::unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
+            y <- grid::unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
-            grid.bezier(x, y, gp=gpar(lwd = df$w[i], lex = 0.5, col = "blue"))
+            grid::grid.bezier(x, y, gp=grid::gpar(lwd = df$w[i], lex = 0.5, col = "blue"))
           }
         }
         return(invisible(GdObject))
@@ -816,13 +824,14 @@ SJTrack <- function(sj = NULL){
 #' @param sj Data on backsplice sites. Should be a GRanges object returned by readBSJout or countSumChimFile.
 #'
 #' @importFrom Gviz CustomTrack
+#' @importFrom grid gpar grid.text grid.xspline unit
 #' @export
 BSJTrack <- function(bsj = NULL){
   ctrack <- Gviz::CustomTrack(
     plottingFunction = function(GdObject, prepare, df = bsj) {
       if(length(df) == 0){
         if(!prepare){
-          grid.text("No backsplice junctions in this region")
+          grid::grid.text("No backsplice junctions in this region")
         }
         return(invisible(GdObject))
       } else {
@@ -863,10 +872,10 @@ BSJTrack <- function(bsj = NULL){
           df$w <- log(df$count+1.2, 2)
 
           for (i in 1:length(df)) {
-            x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
-            y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
+            x <- grid::unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
+            y <- grid::unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
-            grid.xspline(x, y, shape=c(0, 1, 1, 0), open=TRUE, gp=gpar(lwd = df$w[i], lex = 0.5, col = "red"))
+            grid::grid.xspline(x, y, shape=c(0, 1, 1, 0), open=TRUE, gp=grid::gpar(lwd = df$w[i], lex = 0.5, col = "red"))
           }
         }
         return(invisible(GdObject))

@@ -862,7 +862,7 @@ setGeneric(name = "alignmentStats",
 #' bsjStats(object)
 #'
 #' @importFrom plyr join_all
-#' @import tidyr
+#' @importFrom tidyr pivot_longer
 #' @export
 setGeneric(name = "bsjStats",
            def = function(object, out_type = "wide", ...)

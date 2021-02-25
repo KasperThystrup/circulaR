@@ -263,7 +263,7 @@ setMethod(f = "exp.mat",
             }
 
             if(format == "wide"){
-              output <- output %>% tidyr::spread(sample, count)
+              output <- output %>% tidyr::pivot_wider(names_from = sample, values_from = count)   ###! CHECK Changed from spread(x,y) to pivot_wider(names_from = x, values_from = y)
             }
             return(tibble::as_tibble(output))
           })
@@ -1241,7 +1241,7 @@ setMethod(f = "alignmentStats",
             output <- plyr::join_all(output, by = "stat", type = "left")
 
             if (out_type == "long"){
-              output <- pivot_longer(
+              output <- tidyr::pivot_longer(
                 data = output, cols = -stat,
                 names_to = "sample", values_to = "value"
               )
