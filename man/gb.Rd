@@ -2,7 +2,7 @@
 % Please edit documentation in R/S4_generics.R
 \name{gb}
 \alias{gb}
-\title{Accessor for organism}
+\title{Accessor for genome build}
 \usage{
 gb(object)
 }
@@ -10,19 +10,12 @@ gb(object)
 \item{object}{circSample or circExperiment object}
 }
 \value{
-Character vector with organism(s)
-
 Character vector with the genome build(s)
 }
 \description{
-circSample and circExperiment class accessors for showing the organism(s) of cicSample object(s)
+circSample and circExperiment class accessors for showing the genome build(s) of circSample object(s)
 }
 \examples{
-# The organism of a sample object
-organism(sample.object)
-
-# The organism in each sample of an experiment
-organism(experiment.object)
 # The genome build of a sample object
 gb(sample.object)
 

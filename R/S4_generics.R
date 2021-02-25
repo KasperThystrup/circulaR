@@ -1,5 +1,4 @@
 ################################ Accessor methods #################################
-
 #' Accessor for sample.id
 #'
 #' circSample and circExperiment class accessors for showing the sample.id(s) of cicSample object(s)
@@ -37,6 +36,7 @@ setGeneric(name = "sample.id",
 #' organism(experiment.object)
 #' @importFrom BiocGenerics organism
 #' @export
+NULL
 #setGeneric(name = "organism",
 #           def = function(object)
 #             standardGeneric("organism"))
@@ -735,6 +735,13 @@ setGeneric(name = "compareToKnownJunctions",
 #' @importFrom tibble add_column
 #'
 #' @examples
+#' # Do not run
+#' # Setup circSample or circExperiment object
+#' object <- circSample(...)
+#' # Load relevant data
+#' ...
+#' # Generate motifs
+#' object <- generateJunctionMotifs(object)
 setGeneric(name = "generateJunctionMotifs",
            def = function(object, genome_seq, cores = 1L)
              standardGeneric("generateJunctionMotifs"))
@@ -782,7 +789,7 @@ setGeneric(name = "summarizeBSJreads",
 #'
 #' @param object circSample or circExperiment object
 #' @param filter A logical vector (circSample) or list of logical vectors (circExperiment) indicating which bsj.reads should be included in downstream analyses.
-#' @param mode Character, "strict" sets new filter value to FALSE if either the previous \cide{include.read} or new filter value is \code{FALSE}. "last" overwrites values with the new regardles of previous value.
+#' @param mode Character, "strict" sets new filter value to FALSE if either the previous \cite{include.read} or new filter value is \code{FALSE}. "last" overwrites values with the new regardles of previous value.
 #'
 #' @return Object with same class as input.
 #'

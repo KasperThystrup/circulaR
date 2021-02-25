@@ -61,8 +61,8 @@
 #
 #       if(addChevrons){# Plot chevrons
 #         # Determine number of chevrons to plot
-#         size.of.intron.viewport <- grid::convertgrid::unit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
-#         size.of.plot.area <- grid::convertgrid::unit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
+#         size.of.intron.viewport <- grid::convertunit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
+#         size.of.plot.area <- grid::convertunit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
 #         rel.size <- as.numeric(size.of.intron.viewport)/as.numeric(size.of.plot.area)
 #         nc <- ceiling(rel.size / 0.04)
 #
@@ -171,8 +171,8 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
 
         if(addChevrons){# Plot chevrons
           # Determine number of chevrons to plot
-          size.of.intron.viewport <- grid::convertgrid::unit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
-          size.of.plot.area <- grid::convertgrid::unit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
+          size.of.intron.viewport <- grid::convertunit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
+          size.of.plot.area <- grid::convertunit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
           rel.size <- as.numeric(size.of.intron.viewport)/as.numeric(size.of.plot.area)
           nc <- ceiling(rel.size / 0.04)
 
@@ -289,8 +289,8 @@ plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, ran
 
         if(showDirection){# Plot chevrons
           # Determine number of chevrons to plot
-          size.of.intron.viewport <- grid::convertgrid::unit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
-          size.of.plot.area <- grid::convertgrid::unit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
+          size.of.intron.viewport <- grid::convertunit(grid::unit(x.boundaries[2], "native") - grid::unit(x.boundaries[1], "native"), unitTo = "cm")
+          size.of.plot.area <- grid::convertunit(grid::unit(rangex[2], "native") - grid::unit(rangex[1], "native"), unitTo = "cm")
           rel.size <- as.numeric(size.of.intron.viewport)/as.numeric(size.of.plot.area)
           nc <- ceiling(rel.size / 0.04)
 

@@ -11,7 +11,7 @@ addFilter(object, filter, mode = "strict", ...)
 
 \item{filter}{A logical vector (circSample) or list of logical vectors (circExperiment) indicating which bsj.reads should be included in downstream analyses.}
 
-\item{mode}{Character, "strict" sets new filter value to FALSE if either the previous \cide{include.read} or new filter value is \code{FALSE}. "last" overwrites values with the new regardles of previous value.}
+\item{mode}{Character, "strict" sets new filter value to FALSE if either the previous \cite{include.read} or new filter value is \code{FALSE}. "last" overwrites values with the new regardles of previous value.}
 }
 \value{
 Object with same class as input.

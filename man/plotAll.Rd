@@ -22,7 +22,7 @@ plotAll(
 
 \item{region}{GRanges object describing the region of interest}
 
-\item{gid}{Ensembl gene id to plot}
+\item{gid}{Ensembl gene id to plot grid.newpage}
 }
 \description{
 Plot transcript models and show linear and backsplice jjunctions.

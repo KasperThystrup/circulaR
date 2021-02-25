@@ -290,6 +290,7 @@ calcCoverage <- function(df, asGRanges = T){
 #'
 #' @return Same as input, but with certin chromosomes removed.
 #' @examples
+#' pruneChromosomes(db, chromosomes = c(1:22, x, y)
 #' @export
 pruneChromosomes <- function(db, chromosomes = NULL){
   if (!is.null(err <- checkVariables(obj = chromosomes, expect_class = c("NULL", "character", "integer"), vari = "chromosomes"))) stop(err)
