@@ -241,7 +241,7 @@ plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, ran
   }
 
   ntranscripts <- ex$TXNAME %>% unique %>% length
-  nex <- ex %>% group_by(TXNAME) %>% summarise(no.ex = length(EXONID))
+  nex <- ex %>% dplyr::group_by(TXNAME) %>% dplyr::summarise(no.ex = length(EXONID))
 
   # Make top viewport. A grid with one column and as many rows as transcripts to plot.
   top.vp <- viewport(layout = grid.layout(ntranscripts, 1))

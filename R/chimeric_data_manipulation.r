@@ -64,7 +64,7 @@ checkPEReads_old <- function(df = NULL, endTol = 5){
 #     subset(cbs, X3 == "+" & sign(shiftAcceptorToNearestJ) == -1 & abs(shiftAcceptorToNearestJ) <= X8)$X10,
 #     subset(cbs, X3 == "+" & sign(shiftAcceptorToNearestJ) == 1 & abs(shiftAcceptorToNearestJ) <= X9)$X10
 #   )
-#   shiftable.reads <- setdiff(shiftable.reads, c(both.OK, one.OK, intronic.circles, intron.lariats)) # Remove reads that have already been accounted for.
+#   shiftable.reads <- dplyr::setdiff(shiftable.reads, c(both.OK, one.OK, intronic.circles, intron.lariats)) # Remove reads that have already been accounted for.
 #
 #   category <- rep(NA, length(totalBSJ))
 #   category[totalBSJ %in% both.OK] <- "Both OK"

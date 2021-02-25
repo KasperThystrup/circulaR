@@ -163,7 +163,7 @@ setMethod(f = "bsj.reads",
                   o$sample.id <- sample.id(object)[i]
                   return(o)
                 }
-              ) %>% bind_rows()
+              ) %>% dplyr::bind_rows()
             } else {
               output <- lapply(samples(object), bsj.reads)
             }
@@ -258,7 +258,7 @@ setMethod(f = "exp.mat",
               dplyr::bind_rows(.id = "sample")
 
             if(!is.null(normFactors)){
-              output <- output %>% group_by(sample) %>% mutate(count = count/normFactors[sample])
+              output <- output %>% dplyr::group_by(sample) %>% dplyr::mutate(count = count/normFactors[sample])
             }
 
             if(format == "wide"){

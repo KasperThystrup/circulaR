@@ -403,12 +403,12 @@ findNearest <- function(juncCand, kj, type, cbs){
 rescueAmbiguous <- function(acceptors, donors, ambiguousHits){
   # Ensure that there are ambiguous reads in the dataset
   if(length(ambiguousHits) != 0){
-    ambiguousJuncs <- full_join(
+    ambiguousJuncs <- dplyr::full_join(
       subset(acceptors, queryHits %in% ambiguousHits),
       subset(donors, queryHits %in% ambiguousHits),
       by = "queryHits"
     )
-    rescuedJuncs <- ambiguousJuncs %>% group_by(queryHits) %>%
+    rescuedJuncs <- ambiguousJuncs %>% dplyr::group_by(queryHits) %>%
       dplyr::filter(
         donor.closest.type == "donor" & acceptor.closest.type == "acceptor" &
           abs(shiftAcceptorToNearestJ) == min(abs(shiftAcceptorToNearestJ)) &
@@ -698,6 +698,7 @@ guessPE <- function(bf){
 #' ...
 #' @return Unknown
 #' @export
+#' @importFrom tibble tibble
 parseDataDir <- function(dir, PE = NULL, frfs = NULL, org = NULL, geno = NULL){
   # Checks
   if(!dir.exists(dir)){stop("Directory does not exist.")}
@@ -709,7 +710,7 @@ parseDataDir <- function(dir, PE = NULL, frfs = NULL, org = NULL, geno = NULL){
   num.samples <- sum(chim.index)
   sample.prefix <- all.files[chim.index] %>% sub("Chimeric.out.junction", "", ., fixed = T)
 
-  output <- tibble(
+  output <- tibble::tibble(
     id = basename(sample.prefix),
     chim.file = all.files[grepl("Chimeric.out.junction$", all.files)],
     bam.file = all.files[grepl("Aligned.*\\.out\\.bam$", all.files)],

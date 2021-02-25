@@ -42,7 +42,7 @@ addKnownJunctions <- function(cbs, kj){
   message(" Ambiguous: ", ambi, " (", round(ambi*100/totalReads, digits = 2),"%)")
 
   if (ambi == 0) {
-    output <- cbs %>% left_join(nearestDonors, by = "queryHits") %>% left_join(nearestAcceptors, by = "queryHits")
+    output <- cbs %>% dplyr::left_join(nearestDonors, by = "queryHits") %>% dplyr::left_join(nearestAcceptors, by = "queryHits")
   } else {
     # Trying to resolve ambiguities
     resolvedHits <- rescueAmbiguous(acceptors = nearestAcceptors, donors = nearestDonors, ambiguousHits)
@@ -52,9 +52,9 @@ addKnownJunctions <- function(cbs, kj){
 
     output <- rbind(
       subset(cbs, !queryHits %in% ambiguousHits) %>%
-        left_join(nearestDonors, by = "queryHits") %>%
-        left_join(nearestAcceptors, by = "queryHits"),
-      right_join(cbs, resolvedHits, by = "queryHits")
+        dplyr::left_join(nearestDonors, by = "queryHits") %>%
+        dplyr::left_join(nearestAcceptors, by = "queryHits"),
+      dplyr::right_join(cbs, resolvedHits, by = "queryHits")
     )
   }
 
@@ -71,7 +71,8 @@ addKnownJunctions <- function(cbs, kj){
 #' @importFrom GenomicFeatures genes
 #' @importFrom GenomicRanges findOverlaps
 #' @importFrom AnnotationDbi select
-#' @importFrom dplyr left_join tibble
+#' @importFrom dplyr left_join
+#' @importFrom tibble tibble
 annotateByOverlap <- function(bsids = NULL, db = ahdb, t = "within"){
   db.type <- class(db)
   if(!db.type %in% c("TxDb", "EnsDb")){stop("Only TxDb or AhDb databases are supported.")}
@@ -92,7 +93,7 @@ annotateByOverlap <- function(bsids = NULL, db = ahdb, t = "within"){
     "TxDb" = GenomicFeatures::genes
   )
 
-  output <- tibble(
+  output <- tibble::tibble(
     bsID = bsids
   )
 
@@ -105,7 +106,7 @@ annotateByOverlap <- function(bsids = NULL, db = ahdb, t = "within"){
   g.gr <- getGenes(db)
   ol <- GenomicRanges::findOverlaps(bsid.gr, g.gr, type = t, select = "all")
   if(length(ol) == 0){stop("No overlap found. If t = 'within', you could try to rerun using t = 'any'.")}
-  hits <- tibble(
+  hits <- tibble::tibble(
     bsID = bsids[queryHits(ol)],
     GENEID = g.gr$gene_id[subjectHits(ol)]
   )
@@ -127,7 +128,7 @@ annotateByOverlap <- function(bsids = NULL, db = ahdb, t = "within"){
   #   stringsAsFactors = F
   # )
   # output <- merge(output, annot)
-  # output <- output %>% group_by(bsID) %>% summarise(ensembl_gene_id = paste(ensembl_gene_id, collapse = "|"), external_gene_name = paste(external_gene_name, collapse = "|"))
+  # output <- output %>% dplyr::group_by(bsID) %>% dplyr::summarise(ensembl_gene_id = paste(ensembl_gene_id, collapse = "|"), external_gene_name = paste(external_gene_name, collapse = "|"))
   # unknown <- bsids[!bsids %in% output$bsID]
   # if(length(unknown) != 0){
   #   output <- rbind(
