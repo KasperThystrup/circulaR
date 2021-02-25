@@ -16,8 +16,8 @@ junctionMotif <- function(bsids, g = Hsapiens){
   if(length(org) > 1){stop("Backsplice IDs from multiple organisms detected. Currently, only a single organism is supported.")}
   if(BSgenome::providerVersion(g) != org){stop("Make sure that genome build identifier in bsID and the supplied BS genome object are identical.")}
 
-  d.gr <- bsid2junc(bsids, junc.type = "donor") %>% resize(., 2, fix = "start")
-  a.gr <- bsid2junc(bsids, junc.type = "acceptor") %>% resize(., 2, fix = "end")
+  d.gr <- bsid2junc(bsids, junc.type = "donor") %>% GenomicRanges::resize(., 2, fix = "start")
+  a.gr <- bsid2junc(bsids, junc.type = "acceptor") %>% GenomicRanges::resize(., 2, fix = "end")
 
   output <- paste(
     as.character(BSgenome::Views(g, d.gr)),
@@ -117,7 +117,7 @@ bsid2bed <- function(id, UCSCstyle = F){
 bsid2gr <- function(x){
   tmp <- strsplit(x, ":")
 
-  gr <- GRanges(
+  gr <- GenomicRanges::GRanges(
     seqnames = sapply(tmp, function(x)x[2]),
     ranges = IRanges(
       start = sapply(tmp, function(x)min(as.numeric(x[3:4]))),
@@ -138,7 +138,7 @@ bsid2junc <- function(bsids=NULL, junc.type = "acceptor"){
   if(junc.type == "donor") i<-3
   tmp <- strsplit(bsids, ":")
 
-  gr <- GRanges(
+  gr <- GenomicRanges::GRanges(
     seqnames = sapply(tmp, function(x)x[2]),
     ranges = IRanges(
       start = as.numeric(sapply(tmp, function(x)x[i])),
@@ -261,7 +261,7 @@ calcCoverage <- function(df, asGRanges = T){
       return(c(seg1,seg2))
     }) %>% unlist %>% table
 
-    gr <- GRanges(
+    gr <- GenomicRanges::GRanges(
       seqnames = unique(df$X1),
       range = IRanges(
         start = as.numeric(names(cv)),
@@ -311,7 +311,7 @@ pruneChromosomes <- function(db, chromosomes = NULL){
       if (!all(chromosomes %in% seqlevels(db))) stop("The following provided chromosomes, was not found in the database and will be removed:\n",
                                                         paste0(chromosomes[!chromosomes %in% seqlevels(db)]), collapse = "\n")
       db <- restoreSeqlevels(db)
-      seqlevels(db) <- sort(unique(chromosomes))
+      seqlevels(db) <- BiocGenerics::sort(unique(chromosomes))
     }
   }
   message(" Done")
@@ -361,6 +361,8 @@ junctionsToGRanges <- function(seqnames, start = NULL, end = NULL, width = NULL,
 #' * type: The closest known junction type (acceptor or donor)
 #' * strand: The closest known junction strand position
 #' * ToNearestJ: Minimum distance of the read donor or acceptor position to the nearest known donor or acceptor site.
+#' @importFrom BiocGenerics start
+#' @importFrom GenomicRanges strand
 findNearest <- function(juncCand, kj, type, cbs){
   # Determine which known junctions that are closest to junction candidates
   nearestHits <- GenomicRanges::nearest(juncCand, kj, select = "all", ignore.strand = FALSE)
@@ -373,7 +375,7 @@ findNearest <- function(juncCand, kj, type, cbs){
   closest.jID <- kj[near$subjectHits]$jID
   closest.type <- kj[near$subjectHits]$type
   closest.strand <- as.character(GenomicRanges::strand(kj[near$subjectHits]))
-  ToNearestJ <- start(kj)[near$subjectHits] - start(juncCand)[near$queryHits]
+  ToNearestJ <- BiocGenerics::start(kj)[near$subjectHits] - BiocGenerics::start(juncCand)[near$queryHits]
 
   if (type == "donor") {
     near$donor.closest.jID <- closest.jID
@@ -424,9 +426,9 @@ rescueAmbiguous <- function(acceptors, donors, ambiguousHits){
 #' Analyses the provided donors and acceptors to determine if there are any junctions that cannot be unequivocally determined by the nearest function
 determineAmbiguousHits <- function(acceptors, donors){
   message("Screening for ambiguities in closest junction.")
-  duplicatedDonors <- unique(donors$queryHits[duplicated(donors$queryHits)])
-  duplicatedAcceptors <- unique(acceptors$queryHits[duplicated(acceptors$queryHits)])
-  ambiguousHits <- sort(unique(c(duplicatedDonors, duplicatedAcceptors)))
+  duplicatedDonors <- unique(donors$queryHits[BiocGenerics::duplicated(donors$queryHits)])  ###!CHECK: BiocGenerics:: added, if not working, remove dependency!
+  duplicatedAcceptors <- unique(acceptors$queryHits[BiocGenerics::duplicated(acceptors$queryHits)])  ###!CHECK: BiocGenerics:: added, if not working, remove dependency!
+  ambiguousHits <- BiocGenerics::sort(unique(c(duplicatedDonors, duplicatedAcceptors)))
 
   #message("- ambiguities for closest junction found in ", length(ambiguousHits), " reads (", signif(length(ambiguousHits)*100/nrow(cbs), digits = 2), "% of input).")
 
@@ -513,7 +515,7 @@ resolveReads <- function(cbs, ambiguousHits, toRescue, donors, acceptors){
 
 #' Add information on usage of donor and acceptor sites for linear splicing
 #'
-#' @import GenomicRanges
+#' @importFrom GenomicRanges findOverlaps GRanges
 #' @export
 addLinCounts <- function(cbj = cbj.sum, sj = sj.data){
   # Split into plus and minus strand
@@ -523,13 +525,13 @@ addLinCounts <- function(cbj = cbj.sum, sj = sj.data){
 
   ## On plus
   # acceptor
-  ac.plus <- findOverlaps(
+  ac.plus <- GenomicRanges::findOverlaps(
     bsid2junc(bsids = cbj.plus$bsID, junc.type = "acceptor"),
     sj,
     type = "end"
   ) %>% data.frame
   # donor
-  do.plus <- findOverlaps(
+  do.plus <- GenomicRanges::findOverlaps(
     bsid2junc(bsids = cbj.plus$bsID, junc.type = "donor"),
     sj,
     type = "start"
@@ -543,13 +545,13 @@ addLinCounts <- function(cbj = cbj.sum, sj = sj.data){
 
   ## On plus
   # acceptor
-  ac.minus <- findOverlaps(
+  ac.minus <- GenomicRanges::findOverlaps(
     bsid2junc(bsids = cbj.minus$bsID, junc.type = "acceptor"),
     sj,
     type = "start"
   ) %>% data.frame
   # donor
-  do.minus <- findOverlaps(
+  do.minus <- GenomicRanges::findOverlaps(
     bsid2junc(bsids = cbj.minus$bsID, junc.type = "donor"),
     sj,
     type = "end"
@@ -565,7 +567,7 @@ addLinCounts <- function(cbj = cbj.sum, sj = sj.data){
   do <- dplyr::bind_rows(do.plus, do.minus)
 
   output <- dplyr::left_join(data.frame(cbj), ac, by = "bsID") %>% dplyr::left_join(., do, by = "bsID")
-  return(GRanges(output))
+  return(GenomicRanges::GRanges(output))
 }
 
 #' Infer the exons structure of a circular RNA
@@ -580,6 +582,7 @@ addLinCounts <- function(cbj = cbj.sum, sj = sj.data){
 #' @importFrom dplyr inner_join
 #' @importFrom magrittr %>%
 #' @importFrom IRanges subsetByOverlaps
+#' @importFrom S4Vectors mcols
 #' @export
 inferExons <- function(bsid, eBt){
   if(!is.null(err <- checkVariables(eBt, "CompressedGRangesList", "eBt"))){stop(err)}
@@ -611,7 +614,7 @@ inferExons <- function(bsid, eBt){
 
   # Identify unique models
   output <- lapply(valid.models, function(x){
-    mcols(x) <- NULL
+    S4Vectors::mcols(x) <- NULL
     return(x)
   }) %>% unique
 

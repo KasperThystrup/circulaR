@@ -19,12 +19,13 @@
 #' @importFrom GenomicRanges GRanges nearest
 #' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
+#' @importFrom S4Vectors mcols
 #' @export
 addKnownJunctions <- function(cbs, kj){
   # # Checks
   # if(!is.null(err <- checkVariables(obj = cbs, expect_class = c("tbl_df", "tbl", "data.frame") , vari = "cbs"))) stop(err)
   # if(!is.null(err <- checkVariables(obj = kj, expect_class = "GRanges", vari = "kj"))) stop(err)
-  # if(!all(colnames(mcols(kj)) %in% c("type", "g_id", "tx_id", "jID"))){stop("Known junctions appears to have the wrong format.")}
+  # if(!all(colnames(S4Vectors::mcols(kj)) %in% c("type", "g_id", "tx_id", "jID"))){stop("Known junctions appears to have the wrong format.")}
   cbs$queryHits <- 1:nrow(cbs)
 
   # Make GRanges objects of identified donors and acceptors

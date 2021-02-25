@@ -31,8 +31,7 @@
 #' # Execute with circExperiment object using 10 cores
 #' bsjExonStats(object = circ_exp, annot = ahdb, ncores = 10L)
 #'
-#' @import IRanges
-#' @import GenomicRanges
+#' @importFrom IRanges findOverlaps reduce width
 #' @importFrom ensembldb exonsBy
 #' @importFrom pbmcapply pbmclapply
 #' @importFrom tidyr tibble

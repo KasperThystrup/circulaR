@@ -36,7 +36,7 @@
 #     vp <- viewport(layout.pos.col = 1, layout.pos.row = t, name = names(ex)[t], xscale = rangex)
 #     pushViewport(vp)
 #
-#     int.widths <- width(int[[t]])
+#     int.widths <- BiocGenerics::width(int[[t]])
 #     for(i in 1:length(int[[t]])){
 #       if(length(int.widths) == 0){next()}
 #       if(int.widths[i] < 5)next()
@@ -72,7 +72,7 @@
 #             grid.lines(
 #               x = unit(c(rel.x, rel.x+0.001), "npc"),
 #               y = unit(c(0.5), "npc"),
-#               arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(strand(int[[t]]) == "+"), "last", "first"), type = "open")
+#               arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(GenomicRanges::strand(int[[t]]) == "+"), "last", "first"), type = "open")
 #             )
 #           }
 #         }
@@ -82,8 +82,8 @@
 #
 #     # Plot the ex
 #     grid.rect(y = rep(0.5, nex[[t]]),
-#               x = unit(start(ex[[t]])-0.5, "native"),
-#               width = unit(apply(cbind(start(ex[[t]]), end(ex[[t]])),1,diff)+1, "native"),
+#               x = unit(BiocGenerics::start(ex[[t]])-0.5, "native"),
+#               width = unit(apply(cbind(BiocGenerics::start(ex[[t]]), BiocGenerics::end(ex[[t]])),1,diff)+1, "native"),
 #               height = 0.6, just = "left", gp = gpar(fill = "steelblue")
 #     )
 #     upViewport()
@@ -145,7 +145,7 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
     pushViewport(vp)
 
     if(names(ex)[t] %in% names(int)){ # If there is an intron in the transcript, then plot it!
-      int.widths <- width(int[[t]])
+      int.widths <- BiocGenerics::width(int[[t]])
       for(i in 1:length(int[[t]])){
         if(length(int.widths) == 0){next()}
         if(int.widths[i] < 5)next()
@@ -181,7 +181,7 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
               grid.lines(
                 x = unit(c(rel.x, rel.x+0.001), "npc"),
                 y = unit(c(0.5), "npc"),
-                arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(strand(int[[t]]) == "+"), "last", "first"), type = "open")
+                arrow = arrow(angle = 30, length = unit(0.1, "inches"), ends = ifelse(all(GenomicRanges::strand(int[[t]]) == "+"), "last", "first"), type = "open")
               )
             }
           }
@@ -192,8 +192,8 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
 
     # Plot the ex
     grid.rect(y = rep(0.5, nex[[t]]),
-              x = unit(start(ex[[t]])-0.5, "native"),
-              width = unit(apply(cbind(start(ex[[t]]), end(ex[[t]])),1,diff)+1, "native"),
+              x = unit(BiocGenerics::start(ex[[t]])-0.5, "native"),
+              width = unit(apply(cbind(BiocGenerics::start(ex[[t]]), BiocGenerics::end(ex[[t]])),1,diff)+1, "native"),
               height = 0.6, just = "left", gp = gpar(fill = "steelblue")
     )
     upViewport()
@@ -326,12 +326,14 @@ plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, ran
 #' @param trimJ Boolean, should junctions with donor/acceptor outside the range defined in 'rangex' be excluded.
 #' @param line.scaling Factor for overall scaling of line widths.
 #' @param rangex see plotTranscripts
+#'
+#' @importFrom BiocGenerics start end
 #' @export
 plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
   if(is.null(df)){stop("Please input some data.")}
   if(class(df) != "GRanges"){stop("Please provide a GRanges object!")}
   if(trimJ){
-    df <- df[!(start(df) < min(rangex) | end(df) > max(rangex)),]
+    df <- df[!(BiocGenerics::start(df) < min(rangex) | BiocGenerics::end(df) > max(rangex)),]
   }
   # Remove row with no counts in unique mapping
   df <- df[df$read.count.unique != 0,]
@@ -344,10 +346,10 @@ plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
     # Scale height to length of junction. Height should be in the range [0.1 , 0.95].
     # The min value should be determined by the number of junctions to plot
     scale.range <- c(ifelse(length(df)<10, 1-length(df)*0.1, .1), 0.95)
-    df$height <- width(df)
+    df$height <- BiocGenerics::width(df)
     df$height <- (df$height-min(df$height)) * diff(scale.range) / (max(df$height)-min(df$height)) + min(scale.range)
 
-    tmp <- strand(df)
+    tmp <- GenomicRanges::strand(df)
     tmp <- tmp[tmp!="*"]
 
     if(all(tmp == "-")){
@@ -371,7 +373,7 @@ plotSJ <- function(df = NULL, rangex, line.scaling = 0.5, trimJ = T) {
     pushViewport(viewport(xscale = rangex))
 
     for (i in 1:length(df)) {
-      x <- unit(rep(c(start(df[i]), end(df[i])), each=2), "native")
+      x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
       y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
       grid.bezier(x, y, gp=gpar(lwd = df$w[i], lex = line.scaling, col = "blue"))
@@ -398,13 +400,13 @@ plotBSJ <- function(df = NULL, rangex, line.scaling = 0.5) {
     # Scale height to length of junction. Height should be in the range [0.15 , 0.85].
     if(length(df) > 1){
       scale.range <- c(ifelse(length(df) < 8, 0.85 - length(df)*0.1, 0.15), 0.85)
-      df$height <- width(df)
+      df$height <- BiocGenerics::width(df)
       df$height <- (df$height-min(df$height)) * diff(scale.range) / (max(df$height)-min(df$height)) + min(scale.range)
     } else {
       df$height = 0.85
     }
 
-    if(all(strand(df) == "+")){
+    if(all(GenomicRanges::strand(df) == "+")){
       df$height <- 1-df$height
       y.start = 0.95
     } else {
@@ -425,7 +427,7 @@ plotBSJ <- function(df = NULL, rangex, line.scaling = 0.5) {
     pushViewport(viewport(xscale = rangex))
 
     for (i in 1:length(df)) {
-      x <- unit(rep(c(start(df[i]), end(df[i])), each=2), "native")
+      x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
       y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
       grid.xspline(x, y, shape=c(0, 1, 1, 0), open=TRUE, gp=gpar(lwd = df$w[i], lex = line.scaling, col = "red"))
@@ -442,11 +444,13 @@ plotBSJ <- function(df = NULL, rangex, line.scaling = 0.5) {
 #' @param size Number of nucleotides adjacent to the junctions
 #' @param l.fontsize Sice of the font used for legend
 #' @import grid
+#' @importFrom BiocGenerics sort
+#' @importFrom GenomicRanges GRanges
 #' @export
 plotBSJrepeats <- function(df = candidate.bsj, rid = NULL, size = 10, l.fontsize = 9, unstranded = F) {
   r <- subset(df, X10 == rid)
-  xlim <- sort(as.integer(r[,c("X2", "X5")]))
-  ex <- subsetByOverlaps(EXONS, GRanges(seqnames = r$X1, ranges = IRanges(start = xlim[1], end = xlim[2]), strand = ifelse(unstranded, "*", r$X3)))
+  xlim <- BiocGenerics::sort(as.integer(r[,c("X2", "X5")]))
+  ex <- subsetByOverlaps(EXONS, GenomicRanges::GRanges(seqnames = r$X1, ranges = IRanges(start = xlim[1], end = xlim[2]), strand = ifelse(unstranded, "*", r$X3)))
   int <- INTRONS[names(INTRONS) %in% names(ex)]
 
   r.rep <- r$X8
@@ -554,7 +558,7 @@ plotBSJrepeats <- function(df = candidate.bsj, rid = NULL, size = 10, l.fontsize
   # for(i in 1:length(int)){ # Add acceptor and donor sites
   #   pushViewport(viewport(layout.pos.col=1, layout.pos.row=i, xscale = range(ac.region)))
   #   grid.points(
-  #     x = tmp<-unit(c(start(int[[i]]), end(int[[i]])), units = "native"),
+  #     x = tmp<-unit(c(BiocGenerics::start(int[[i]]), BiocGenerics::end(int[[i]])), units = "native"),
   #     y = unit(rep(0.5, length(tmp)), "npc"),
   #     pch="x")
   #   upViewport()
@@ -680,7 +684,7 @@ plotBSJrepeats <- function(df = candidate.bsj, rid = NULL, size = 10, l.fontsize
 #' @param gid Ensembl gene id to plot
 #' @export
 plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.interest, gid = g, ...){
-  st <- as.character(unique(strand(bsj)))
+  st <- as.character(unique(GenomicRanges::strand(bsj)))
 
   vp.upper <- viewport(x = 0, y = 1, w = 1, h = 1/3, just = c("left", "top"), name = "upper")
   vp.tx <- viewport(x = 0, y = 2/3, w = 1, h = 1/3, just = c("left", "top"), name = "tx")
@@ -696,7 +700,7 @@ plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.
   upViewport()
 
 
-  xlim <- c(start(region), end(region))
+  xlim <- c(BiocGenerics::start(region), BiocGenerics::end(region))
   #g <- subsetByOverlaps(genes(db), region)
 
   # Plot transcripts
@@ -706,7 +710,7 @@ plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.
   upViewport()
 
   # If transcript is on plus strand, then plot linear junction in upper panel and backsplice junctions in lower panel, else vice versa
-  o <- switch(as.character(strand(region)), "+" = c("upper", "lower"), "-" = c("lower", "upper"))
+  o <- switch(as.character(GenomicRanges::strand(region)), "+" = c("upper", "lower"), "-" = c("lower", "upper"))
 
   downViewport(o[1])
   plotSJ(df = subsetByOverlaps(sj, region), rangex = xlim)
@@ -729,7 +733,7 @@ plotCoverage <- function(df = NULL, rangex){
   # Make top viewport
   pushViewport(viewport(xscale = rangex, yscale = rangey))
   for(i in 1:length(df)){
-    grid.lines(x = unit(rep(start(df)[i],2), units = "native"), y = unit(c(0, df$cov[i]), unit = "native"))
+    grid.lines(x = unit(rep(BiocGenerics::start(df)[i],2), units = "native"), y = unit(c(0, df$cov[i]), unit = "native"))
   }
   upViewport()
 }
@@ -755,7 +759,7 @@ SJTrack <- function(sj = NULL){
           # Scale height to length of junction. Height should be in the range [0.1 , 0.95].
           # The min value should be determined by the number of junctions to plot
           scale.range <- c(ifelse(length(df)<10, 1-length(df)*0.1, .1), 0.95)
-          df$height <- width(df)
+          df$height <- BiocGenerics::width(df)
           if(length(df) == 1){
             df$height <- 0.95
           } else {
@@ -767,7 +771,7 @@ SJTrack <- function(sj = NULL){
 
           ###! Rotate LSJ track relative to strandedness
 
-          # tmp <- strand(df)
+          # tmp <- GenomicRanges::strand(df)
           # tmp <- tmp[tmp!="*"]
           #
           # if(all(tmp == "-")){
@@ -792,7 +796,7 @@ SJTrack <- function(sj = NULL){
           df$w <- log(df$read.count.unique+1.2, 2)
 
           for (i in 1:length(df)) {
-            x <- unit(rep(c(start(df[i]), end(df[i])), each=2), "native")
+            x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
             y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
             grid.bezier(x, y, gp=gpar(lwd = df$w[i], lex = 0.5, col = "blue"))
@@ -826,7 +830,7 @@ BSJTrack <- function(bsj = NULL){
           # Scale height to length of junction. Height should be in the range [0.15 , 0.85].
           if(length(df) > 1){
             scale.range <- c(ifelse(length(df) < 8, 0.85 - length(df)*0.1, 0.15), 0.85)
-            df$height <- width(df)
+            df$height <- BiocGenerics::width(df)
             df$height <- (df$height-min(df$height)) * diff(scale.range) / (max(df$height)-min(df$height)) + min(scale.range)
           } else {
             df$height = 0.85
@@ -836,7 +840,7 @@ BSJTrack <- function(bsj = NULL){
 
           ###! Rotate BSJ track relative to strandedness
 
-          # if(all(strand(df) == "+")){
+          # if(all(GenomicRanges::strand(df) == "+")){
           #   df$height <- 1-df$height
           #   y.start = 0.95
           # } else {
@@ -859,7 +863,7 @@ BSJTrack <- function(bsj = NULL){
           df$w <- log(df$count+1.2, 2)
 
           for (i in 1:length(df)) {
-            x <- unit(rep(c(start(df[i]), end(df[i])), each=2), "native")
+            x <- unit(rep(c(BiocGenerics::start(df[i]), BiocGenerics::end(df[i])), each=2), "native")
             y <- unit(c(y.start, df$height[i], df$height[i], y.start), "npc")
 
             grid.xspline(x, y, shape=c(0, 1, 1, 0), open=TRUE, gp=gpar(lwd = df$w[i], lex = 0.5, col = "red"))

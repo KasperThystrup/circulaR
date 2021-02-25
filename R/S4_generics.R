@@ -35,12 +35,12 @@ setGeneric(name = "sample.id",
 #'
 #' # The organism in each sample of an experiment
 #' organism(experiment.object)
-#' @importFrom GenomeInfoDb organism
+#' @importFrom BiocGenerics organism
 #' @export
-setGeneric(name = "organism",
-           def = function(object)
-             standardGeneric("organism"))
-
+#setGeneric(name = "organism",
+#           def = function(object)
+#             standardGeneric("organism"))
+###! CHECK Can we remove this entirely?
 
 #' Accessor for genome build
 #'
@@ -884,9 +884,11 @@ setGeneric(name = "bsjStats",
 #' @examples
 #' vizJunctions(testSample, symbol = "FIRRE")
 #' @importFrom dplyr group_by summarise
+#' @importFrom BiocGenerics start end strand
 #' @importFrom GenomicRanges GRanges
+#' @importFrom GenomeInfoDb seqnames
 #' @importFrom ensembldb genes getGeneRegionTrackForGviz
-#' @importFrom IRanges subsetByOverlaps
+#' @importFrom IRanges subsetByOverlaps reduce
 #' @export
 setGeneric(name = "vizJunctions",
            def = function(object, symbol = NULL, range = NULL, db, xlim = NULL,
