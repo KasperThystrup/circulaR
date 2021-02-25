@@ -1085,7 +1085,7 @@ setMethod(
       df <- df[df$include.read,]
     }
 
-    df <- df %>% dplyr::group_by(bsID) %>% dplyr::summarise(count = n())
+    df <- df %>% dplyr::group_by(bsID) %>% dplyr::summarise(count = dplyr::n())
 
     # Convert to GRanges
     output <- bsid2gr(df$bsID)
