@@ -271,7 +271,6 @@ setGeneric(name = "bsj.counts",
 #' lsj.counts(experiment.object)
 #'
 #' @export
-#' @import dplyr
 setGeneric(name = "lsj.counts",
            def = function(object)
              standardGeneric("lsj.counts"))
@@ -309,7 +308,6 @@ setGeneric(name = "label",
 #' # The main path to the experiment
 #' path(experiment.object)
 #'
-#' @import BiocGenerics
 #' @export
 setGeneric(name = "path",
            def = function(object)

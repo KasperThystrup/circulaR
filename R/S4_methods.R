@@ -317,7 +317,7 @@ setMethod(f = "sample.id<-",
           }
 )
 
-#' @importFrom BiocGenerics organism
+#' @importFrom BiocGenerics organism organism<-
 setMethod(f = "organism<-",
           signature = "circSample",
           definition = function(object, value){
@@ -655,7 +655,7 @@ setMethod(f = "samples<-",
           })
 
 
-#' @importFrom BiocGenerics path
+#' @importFrom BiocGenerics path path<-
 setMethod(f = "path<-",
           signature = "circExperiment",
           definition = function(object, value){
