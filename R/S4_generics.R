@@ -20,22 +20,22 @@ setGeneric(name = "sample.id",
              standardGeneric("sample.id"))
 
 
-#' Accessor for organism
-#'
-#' circSample and circExperiment class accessors for showing the organism(s) of cicSample object(s)
-#'
-#' @param object circSample or circExperiment object
-#'
-#' @return Character vector with organism(s)
-#'
-#' @examples
-#' # The organism of a sample object
-#' organism(sample.object)
-#'
-#' # The organism in each sample of an experiment
-#' organism(experiment.object)
-#' @importFrom BiocGenerics organism
-#' @export
+# Accessor for organism
+#
+# circSample and circExperiment class accessors for showing the organism(s) of circSample object(s)
+#
+# @param object circSample or circExperiment object
+#
+# @return Character vector with organism(s)
+#
+# @examples
+# # The organism of a sample object
+# organism(sample.object)
+#
+# # The organism in each sample of an experiment
+# organism(experiment.object)
+# @importFrom BiocGenerics organism
+# @export
 NULL
 #setGeneric(name = "organism",
 #           def = function(object)
