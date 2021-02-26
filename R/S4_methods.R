@@ -1316,9 +1316,9 @@ setMethod(
   f = "vizJunctions", signature = "circSample",
   definition = function(object, ...) {
 
-    if (circulaR::is.empty(bsj.counts(object)))
+    if (is.empty(bsj.counts(object)))
       stop("Please load chimeric data.")
-    if (circulaR::is.empty(lsj.counts(object)))
+    # if (is.empty(lsj.counts(object)))
       stop("Please load linear splice data.")
     if (is.null(symbol) & is.null(range))
       stop("Please tell me what to plot.")
@@ -1390,10 +1390,10 @@ setMethod(
       gr.tr <- Gviz::GeneRegionTrack(gr, name = paste0(s, " models"))
 
       # Get the splicing data
-      lsj <- suppressWarnings(subsetByOverlaps(lsj.counts(object), r))
+      lsj <- suppressWarnings(IRanges::subsetByOverlaps(lsj.counts(object), r))
       lsj <- lsj[BiocGenerics::strand(lsj) == BiocGenerics::strand(r)]
 
-      bsj <- suppressWarnings(subsetByOverlaps(bsj.counts(object), r))
+      bsj <- suppressWarnings(IRanges::subsetByOverlaps(bsj.counts(object), r))
 
       if (!is.null(xlim)) {
         BiocGenerics::start(r) <- min(xlim)
@@ -1401,8 +1401,8 @@ setMethod(
       }
 
       if (onlyJunctionsWithinRange) {
-        lsj <- suppressWarnings(subsetByOverlaps(lsj, r, type = "within"))
-        bsj <- suppressWarnings(subsetByOverlaps(bsj, r, type = "within"))
+        lsj <- suppressWarnings(IRanges::subsetByOverlaps(lsj, r, type = "within"))
+        bsj <- suppressWarnings(IRanges::subsetByOverlaps(bsj, r, type = "within"))
       }
 
       if (!is.null(validExonModels)) {
@@ -1621,13 +1621,13 @@ setMethod(f = "getKnownJunctions",
 
             known.junctions <- c(
               GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["start"]]-1, width = 1),
+                      ranges = IRanges::IRanges(start = annot[,colN["start"]]-1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "acceptor", "donor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],
                       ensembl_transcript_id = annot$TXNAME),
               GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["end"]]+1, width = 1),
+                      ranges = IRanges::IRanges(start = annot[,colN["end"]]+1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "donor", "acceptor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],
@@ -1664,13 +1664,13 @@ setMethod(f = "getKnownJunctions",
 
             known.junctions <- c(
               GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["start"]]-1, width = 1),
+                      ranges = IRanges::IRanges(start = annot[,colN["start"]]-1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "acceptor", "donor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],
                       ensembl_transcript_id = annot$TXNAME),
               GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["end"]]+1, width = 1),
+                      ranges = IRanges::IRanges(start = annot[,colN["end"]]+1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "donor", "acceptor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],

@@ -119,7 +119,7 @@ bsid2gr <- function(x){
 
   gr <- GenomicRanges::GRanges(
     seqnames = sapply(tmp, function(x)x[2]),
-    ranges = IRanges(
+    ranges = IRanges::IRanges(
       start = sapply(tmp, function(x)min(as.numeric(x[3:4]))),
       end = sapply(tmp, function(x)max(as.numeric(x[3:4])))
     ),
@@ -140,7 +140,7 @@ bsid2junc <- function(bsids=NULL, junc.type = "acceptor"){
 
   gr <- GenomicRanges::GRanges(
     seqnames = sapply(tmp, function(x)x[2]),
-    ranges = IRanges(
+    ranges = IRanges::IRanges(
       start = as.numeric(sapply(tmp, function(x)x[i])),
       width = 1
     ),
@@ -263,7 +263,7 @@ calcCoverage <- function(df, asGRanges = T){
 
     gr <- GenomicRanges::GRanges(
       seqnames = unique(df$X1),
-      range = IRanges(
+      range = IRanges::IRanges(
         start = as.numeric(names(cv)),
         width = 1
       ),
@@ -331,11 +331,11 @@ junctionsToGRanges <- function(seqnames, start = NULL, end = NULL, width = NULL,
                                                                                                             "Define only two of these variables: start, end & width")
 
   if (is.null(start)) {
-    range <- IRanges(end = end, width = width)
+    range <- IRanges::IRanges(end = end, width = width)
   } else if (is.null(end)) {
-    range <- IRanges(start = start, width = width)
+    range <- IRanges::IRanges(start = start, width = width)
   } else if (is.null(width)) {
-    range <- IRanges(start = start, end = end)
+    range <- IRanges::IRanges(start = start, end = end)
   } else if (end - start != width + 1 | start + width != end - 1 | end - width != start + 1) {
     stop("Something went wrong with defining IRanges. Please ensure that 'start', 'end', or 'width' is propperly defined!")
   }

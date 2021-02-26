@@ -706,7 +706,7 @@ plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.
 
 
   xlim <- c(BiocGenerics::start(region), BiocGenerics::end(region))
-  #g <- subsetByOverlaps(genes(db), region)
+  #g <- IRanges::subsetByOverlaps(genes(db), region)
 
   # Plot transcripts
   grid::downViewport("tx")
@@ -718,11 +718,11 @@ plotAll <- function(DB = txdb, sj = sj.data, bsj = bsj.data, region = region.of.
   o <- switch(as.character(GenomicRanges::strand(region)), "+" = c("upper", "lower"), "-" = c("lower", "upper"))
 
   grid::downViewport(o[1])
-  plotSJ(df = subsetByOverlaps(sj, region), rangex = xlim)
+  plotSJ(df = IRanges::subsetByOverlaps(sj, region), rangex = xlim)
   grid::upViewport()
 
   grid::downViewport(o[2])
-  plotBSJ(df = subsetByOverlaps(bsj, region), rangex = xlim)
+  plotBSJ(df = IRanges::subsetByOverlaps(bsj, region), rangex = xlim)
   grid::upViewport()
 }
 
