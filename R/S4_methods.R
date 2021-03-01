@@ -1082,15 +1082,23 @@ setMethod(
 
     # Count amount of reads that covers unique backsplice sites
     df <- bsj.reads(object)
-    if(applyFilter){
-      df <- df[df$include.read,]
+    if(applyFilter) {
+      # Handle too strict filters
+      if (!any(df$include.read)){
+        output <- GenomicRanges::GRanges(
+          bsID = NA,
+          count = NA
+        )
+
+      } else {
+        df <- df[df$include.read,]
+        df <- df %>% dplyr::group_by(bsID) %>% dplyr::summarise(count = dplyr::n())
+
+        # Convert to GRanges
+        output <- bsid2gr(df$bsID)
+        output$count <- df$count
+      }
     }
-
-    df <- df %>% dplyr::group_by(bsID) %>% dplyr::summarise(count = dplyr::n())
-
-    # Convert to GRanges
-    output <- bsid2gr(df$bsID)
-    output$count <- df$count
 
     bsj.counts(object) <- output
     return(object)
