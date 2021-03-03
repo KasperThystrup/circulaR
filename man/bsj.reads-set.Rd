@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # A datatable of the filtered backsplice junction read data in a sample object
-bsj.reads(sample.object) <- new.datatable
+#bsj.reads(sample.object) <- new.datatable
 
 # A datatable of the filtered backsplice junction read data in each sample of an experiment
-bsj.reads(experiment.object) <- new.datatable.list
+#bsj.reads(experiment.object) <- new.datatable.list
 
 }

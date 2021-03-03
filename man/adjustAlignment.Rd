@@ -20,7 +20,7 @@ A new object with shifted bsj.read data
 Reads circSample bsj.reads, shifts shiftable reads, and replaces bsj.read data with the shifted data
 }
 \examples{
-adjustAlignment(object)
+#adjustAlignment(object)
 
 
 }

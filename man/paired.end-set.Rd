@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing boolean value whether reads are paired-end reads in a sample object
-paried.end(sample.object) <- new.logical
+#paried.end(sample.object) <- new.logical
 
 # Replacing logical value whether reads are paired-end reads in each sample of an experiment
-paried.end(experiment.object) <- new.logical.vector
+#paried.end(experiment.object) <- new.logical.vector
 
 }

@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing samples in an experiment
-samples(experiment.object) <- new.circSample.list
+#samples(experiment.object) <- new.circSample.list
 
 }

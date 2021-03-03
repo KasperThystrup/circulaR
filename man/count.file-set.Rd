@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing linear read count data file path of a sample object
-count.file(sample.object) <- new.path
+#count.file(sample.object) <- new.path
 
 }

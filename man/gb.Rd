@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the genome build(s) of
 }
 \examples{
 # The genome build of a sample object
-gb(sample.object)
+#gb(sample.object)
 
 # The genome build in each sample of an experiment
-gb(experiment.object)
+#gb(experiment.object)
 
 }

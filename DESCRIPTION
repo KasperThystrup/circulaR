@@ -11,7 +11,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 4.0.3)
+    R (>= 4.0)
 Imports:
     AnnotationDbi (>= 1.50.3),
     BiocGenerics (>= 0.34.0),
@@ -31,7 +31,6 @@ Imports:
     Rsamtools (>= 2.4.0),
     RSQLite (>= 2.2.1),
     S4Vectors (>= 0.26.1),
-    stringi (>= 1.5.3),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2),
     stringi (>= 1.5.3)

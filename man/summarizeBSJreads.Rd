@@ -20,6 +20,6 @@ Object with same class as input, but with bsj.count slot populated with data
 Summarize number of reads per backsplice junction.
 }
 \examples{
-summarizeBSJreads(object)
+#summarizeBSJreads(object)
 
 }

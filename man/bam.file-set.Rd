@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing BAM file path of a sample object
-bam.file(sample.object) <- new.path
+#bam.file(sample.object) <- new.path
 
 }

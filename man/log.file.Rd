@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the STAR alignment Log
 }
 \examples{
 # The STAR alignment Log file path of a sample object
-log.file(sample.object)
+#log.file(sample.object)
 
 # The STAR alignment Log file path in each sample of an experiment
-log.file(experiment.object)
+#log.file(experiment.object)
 
 }

@@ -20,9 +20,9 @@ Generates splice motif sequences and adds them t the backsplice junction datatab
 \examples{
 # Do not run
 # Setup circSample or circExperiment object
-object <- circSample(...)
+#object <- circSample(...)
 # Load relevant data
-...
+#...
 # Generate motifs
-object <- generateJunctionMotifs(object)
+#object <- generateJunctionMotifs(object)
 }

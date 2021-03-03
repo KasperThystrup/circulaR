@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the Linear splice junc
 }
 \examples{
 # The Linear splice junctions file path of a sample object
-sj.file(sample.object)
+#sj.file(sample.object)
 
 # The Linear splice junctions file path in each sample of an experiment
-sj.file(experiment.object)
+#sj.file(experiment.object)
 
 }

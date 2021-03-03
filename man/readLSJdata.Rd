@@ -20,6 +20,6 @@ Same as input object, but populated slot for lsj counts.
 The function takes a circSample or circExperiment object and reads the chimeric data for samples described in these objects (SJ.out.tab file).
 }
 \examples{
-readLSJdata(object)
+#readLSJdata(object)
 
 }

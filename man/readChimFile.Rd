@@ -22,5 +22,5 @@ Tibble data frame with data on chimeric reads
 This function uses read_tsv from the tidyverse to read the 14-coulmn file.
 }
 \examples{
-tmp <- readChimFile(fn = "Chimeric.out.junction")
+#tmp <- readChimFile(fn = "Chimeric.out.junction")
 }

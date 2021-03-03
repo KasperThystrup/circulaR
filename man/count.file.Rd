@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the linear read count 
 }
 \examples{
 # The linear read count data file path of a sample object
-count.file(sample.object)
+#count.file(sample.object)
 
 # The Linear splice junctions file path in each sample of an experiment
-count.file(experiment.object)
+#count.file(experiment.object)
 
 }

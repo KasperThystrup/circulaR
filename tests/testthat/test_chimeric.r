@@ -4,21 +4,21 @@ library(circulaR)
 library(GenomicRanges)
 library(IRanges)
 
-test_that(desc = "Check that output of generateCandidateFilters is correct",{
-  df <- data.frame(
-    X1 = c("A", "B", "A", "C", "C", "A"),
-    X2 = c(30, 35, 35, 30, 30, 20),
-    X3 = c("-", "-", "+", "-", "+", "+"),
-    X4 = c("A", "B", "A", "A", "C", "A"),
-    X5 = c(35, 35, 30, 35, 35, 10),
-    X6 = c("-", "-", "+", "-", "-", "+"),
-    X7 = c(-1, -1, 0, 0, 0, 4)
-  )
-  expect_equal(generateCandidateFilters(df, backSpliceDist = 10, FALSE), c(T, F, T, F, F, T)) # Check for ALL chim
-  expect_equal(generateCandidateFilters(df, backSpliceDist  = 5, FALSE), c(T, F, T, F, F, F)) # Check backSpliceDist
-  expect_equal(generateCandidateFilters(df, backSpliceDist  = 0, FALSE), c(F, F, F, F, F, F)) # Check zero dist and filtration
-  expect_equal(generateCandidateFilters(df, backSpliceDist = 10,  TRUE), c(F, F, T, F, F, T)) # Check dismissal of encompassing reads
-})
+# test_that(desc = "Check that output of generateCandidateFilters is correct",{
+#   df <- data.frame(
+#     X1 = c("A", "B", "A", "C", "C", "A"),
+#     X2 = c(30, 35, 35, 30, 30, 20),
+#     X3 = c("-", "-", "+", "-", "+", "+"),
+#     X4 = c("A", "B", "A", "A", "C", "A"),
+#     X5 = c(35, 35, 30, 35, 35, 10),
+#     X6 = c("-", "-", "+", "-", "-", "+"),
+#     X7 = c(-1, -1, 0, 0, 0, 4)
+#   )
+#   expect_equal(generateCandidateFilters(df, backSpliceDist = 10, FALSE), c(T, F, T, F, F, T)) # Check for ALL chim
+#   expect_equal(generateCandidateFilters(df, backSpliceDist  = 5, FALSE), c(T, F, T, F, F, F)) # Check backSpliceDist
+#   expect_equal(generateCandidateFilters(df, backSpliceDist  = 0, FALSE), c(F, F, F, F, F, F)) # Check zero dist and filtration
+#   expect_equal(generateCandidateFilters(df, backSpliceDist = 10,  TRUE), c(F, F, T, F, F, T)) # Check dismissal of encompassing reads
+# })
 
 
 test_that(desc = "GRanges object works", {

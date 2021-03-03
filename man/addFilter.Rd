@@ -20,6 +20,6 @@ Object with same class as input.
 Add filter to bsj.read-data.
 }
 \examples{
-addFilter(object, filter)
+#addFilter(object, filter)
 
 }
