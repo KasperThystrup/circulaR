@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the chimeric file path
 }
 \examples{
 # The chimeric file path of a sample object
-chim.file(sample.object)
+#chim.file(sample.object)
 
 # The chimeric file path in each sample of an experiment
-chim.file(experiment.object)
+#chim.file(experiment.object)
 
 }

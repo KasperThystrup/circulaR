@@ -101,7 +101,7 @@
 #' @param rangex The range in genomic coordinates for the region of interest. This is important for correct alignment of the tx model plot with splice junction plot.
 #' @export
 #' @importFrom AnnotationDbi select
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom grid arrow convertUnit gpar grid.layout grid.lines grid.rect popViewport pushViewport unit upViewport viewport
 plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, rangex = NULL) { # Add option to define transcripts to plot, tx = NULL
   if(is.null(db)){stop("Need a database of transcripts.")}
@@ -212,7 +212,7 @@ plotTxModelsOLD <- function(db = NULL, g = NULL, tid = NULL, addChevrons = T, ra
 #' @param rangex The range in genomic coordinates for the region of interest. This is important for correct alignment of the tx model plot with splice junction plot.
 #' @export
 #' @importFrom AnnotationDbi select
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom grid arrow convertUnit gpar grid.layout grid.lines grid.rect popViewport pushViewport unit upViewport viewport
 plotTxModels <- function(db = NULL, g = NULL, tid = NULL, showDirection = T, rangex = NULL) { # Add option to define transcripts to plot, tx = NULL
   if(is.null(db)){stop("Need a database of transcripts.")}

@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing chimeric file path of a sample object
-chim.file(sample.object) <- new.path
+#chim.file(sample.object) <- new.path
 
 }

@@ -19,6 +19,6 @@ circExperiment object with populated sample-slot.
 Method for automatically detecting and setting up all samples in an experiment.
 }
 \examples{
-locateSamples(experiment.object)
+#locateSamples(experiment.object)
 
 }

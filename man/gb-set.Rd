@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing genome build of a sample object
-gb(sample.object) <- new.gb
+#gb(sample.object) <- new.gb
 
 # Replacing genome build in each sample of an experiment
-gb(experiment.object) <- new.gb.vector
+#gb(experiment.object) <- new.gb.vector
 
 }

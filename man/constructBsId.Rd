@@ -18,6 +18,6 @@ A new circSample or circExperiment object, with a bsID column in the bsj.read da
 Generate unique readID from information of the candidate backsplice junction read data.
 }
 \examples{
-constructBsId(object)
+#constructBsId(object)
 
 }

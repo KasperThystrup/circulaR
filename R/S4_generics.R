@@ -9,10 +9,10 @@
 #'
 #' @examples
 #' # The sample.id of a sample object
-#' sample.id(sample.object)
+#' #sample.id(sample.object)
 #'
 #' # The sample.id in each sample of an experiment
-#' sample.id(experiment.object)
+#' #sample.id(experiment.object)
 #'
 #' @export
 setGeneric(name = "sample.id",
@@ -30,10 +30,10 @@ setGeneric(name = "sample.id",
 #
 # @examples
 # # The organism of a sample object
-# organism(sample.object)
+# #organism(sample.object)
 #
 # # The organism in each sample of an experiment
-# organism(experiment.object)
+# #organism(experiment.object)
 # @importFrom BiocGenerics organism
 # @export
 NULL
@@ -52,10 +52,10 @@ NULL
 #'
 #' @examples
 #' # The genome build of a sample object
-#' gb(sample.object)
+#' #gb(sample.object)
 #'
 #' # The genome build in each sample of an experiment
-#' gb(experiment.object)
+#' #gb(experiment.object)
 #'
 #' @export
 setGeneric(name = "gb",
@@ -73,10 +73,10 @@ setGeneric(name = "gb",
 #'
 #' @examples
 #' # The chimeric file path of a sample object
-#' chim.file(sample.object)
+#' #chim.file(sample.object)
 #'
 #' # The chimeric file path in each sample of an experiment
-#' chim.file(experiment.object)
+#' #chim.file(experiment.object)
 #'
 #' @export
 setGeneric(name = "chim.file",
@@ -94,10 +94,10 @@ setGeneric(name = "chim.file",
 #'
 #' @examples
 #' # The BAM file path of a sample object
-#' bam.file(sample.object)
+#' #bam.file(sample.object)
 #'
 #' # The BAM file path of each sample in each sample of an experiment
-#' bam.file(experiment.object)
+#' #bam.file(experiment.object)
 #'
 #' @export
 setGeneric(name = "bam.file",
@@ -115,10 +115,10 @@ setGeneric(name = "bam.file",
 #'
 #' @examples
 #' # The STAR alignment Log file path of a sample object
-#' log.file(sample.object)
+#' #log.file(sample.object)
 #'
 #' # The STAR alignment Log file path in each sample of an experiment
-#' log.file(experiment.object)
+#' #log.file(experiment.object)
 #'
 #' @export
 setGeneric(name = "log.file",
@@ -136,10 +136,10 @@ setGeneric(name = "log.file",
 #'
 #' @examples
 #' # The Linear splice junctions file path of a sample object
-#' sj.file(sample.object)
+#' #sj.file(sample.object)
 #'
 #' # The Linear splice junctions file path in each sample of an experiment
-#' sj.file(experiment.object)
+#' #sj.file(experiment.object)
 #'
 #' @export
 setGeneric(name = "sj.file",
@@ -157,10 +157,10 @@ setGeneric(name = "sj.file",
 #'
 #' @examples
 #' # The linear read count data file path of a sample object
-#' count.file(sample.object)
+#' #count.file(sample.object)
 #'
 #' # The Linear splice junctions file path in each sample of an experiment
-#' count.file(experiment.object)
+#' #count.file(experiment.object)
 #'
 #' @export
 setGeneric(name = "count.file",
@@ -178,10 +178,10 @@ setGeneric(name = "count.file",
 #'
 #' @examples
 #' # The logical value whether the protocol yielded firstread-firststrand reads in a sample object
-#' firstread.firststrand(sample.object)
+#' #firstread.firststrand(sample.object)
 #'
 #' # The logical value whether the protocol yielded firstread-firststrand reads in each sample of an experiment
-#' firstread.firststrand(experiment.object)
+#' #firstread.firststrand(experiment.object)
 #'
 #' @export
 setGeneric(name = "firstread.firststrand",
@@ -199,10 +199,10 @@ setGeneric(name = "firstread.firststrand",
 #'
 #' @examples
 #' # The logical value whether the protocol yielded paired-end reads in a sample object
-#' paried.end(sample.object)
+#' #paried.end(sample.object)
 #'
 #' # The logical value whether the protocol yielded paired-end reads in each sample of an experiment
-#' paried.end(experiment.object)
+#' #paried.end(experiment.object)
 #'
 #' @export
 setGeneric(name = "paired.end",
@@ -221,10 +221,10 @@ setGeneric(name = "paired.end",
 #'
 #' @examples
 #' # A datatable of the filtered backsplice junction read data in a sample object
-#' bsj.reads(sample.object)
+#' #bsj.reads(sample.object)
 #'
 #' # A datatable of the filtered backsplice junction read data in each sample of an experiment
-#' bsj.reads(experiment.object)
+#' #bsj.reads(experiment.object)
 #'
 #' @export
 setGeneric(name = "bsj.reads",
@@ -244,10 +244,10 @@ setGeneric(name = "bsj.reads",
 #'
 #' @examples
 #' # A datatable of the backsplice junction count data in a sample object
-#' bsj.counts(sample.object)
+#' #bsj.counts(sample.object)
 #'
 #' # A datatable of the backsplice junction count data in each sample of an experiment
-#' bsj.counts(experiment.object)
+#' #bsj.counts(experiment.object)
 #'
 #' @export
 setGeneric(name = "bsj.counts",
@@ -265,16 +265,33 @@ setGeneric(name = "bsj.counts",
 #'
 #' @examples
 #' # A datatable of the linear splice junction count data in a sample object
-#' lsj.counts(sample.object)
+#' #lsj.counts(sample.object)
 #'
 #' # A datatable of the linear splice junction count data in each sample of an experiment
-#' lsj.counts(experiment.object)
+#' #lsj.counts(experiment.object)
 #'
 #' @export
 setGeneric(name = "lsj.counts",
            def = function(object)
              standardGeneric("lsj.counts"))
 
+
+#' CircExperiment accessor for circSamples
+#'
+#' circSample and circExperiment class accessors for showing the samples
+#'
+#' @param object circExperiment object
+#'
+#' @return list of circSamples
+#'
+#' @examples
+#' # The samples in each sample of an experiment
+#' #samples(experiment.object)
+#'
+#' @export
+setGeneric(name = "samples",
+           def = function(object)
+             standardGeneric("samples"))
 
 #' Accessor for sample label
 #'
@@ -286,10 +303,10 @@ setGeneric(name = "lsj.counts",
 #'
 #' @examples
 #' # The label of a sample object
-#' label(sample.object)
+#' #label(sample.object)
 #'
 #' # The label in each sample of an experiment
-#' label(experiment.object)
+#' #label(experiment.object)
 #'
 #' @export
 setGeneric(name = "label",
@@ -306,7 +323,7 @@ setGeneric(name = "label",
 #'
 #' @examples
 #' # The main path to the experiment
-#' path(experiment.object)
+#' #path(experiment.object)
 #'
 #' @export
 setGeneric(name = "path",
@@ -323,7 +340,7 @@ setGeneric(name = "path",
 #'
 #' @examples
 #' # The experiment name
-#' name(experiment.object)
+#' #name(experiment.object)
 #'
 #' @export
 setGeneric(name = "name",
@@ -343,10 +360,10 @@ setGeneric(name = "name",
 #'
 #' @examples
 #' # Replacing sample.id of a sample object
-#' sample.id(sample.object) <- sample.id
+#' #sample.id(sample.object) <- sample.id
 #'
 #' # Replacing sample.id in each sample of an experiment
-#' sample.id(experiment.object) <- sample.id.vector
+#' #sample.id(experiment.object) <- sample.id.vector
 #'
 #' @export
 setGeneric(name = "sample.id<-",
@@ -365,10 +382,10 @@ setGeneric(name = "sample.id<-",
 #'
 #' @examples
 #' # Replacing genome build of a sample object
-#' gb(sample.object) <- new.gb
+#' #gb(sample.object) <- new.gb
 #'
 #' # Replacing genome build in each sample of an experiment
-#' gb(experiment.object) <- new.gb.vector
+#' #gb(experiment.object) <- new.gb.vector
 #'
 #' @export
 setGeneric(name = "gb<-",
@@ -387,7 +404,7 @@ setGeneric(name = "gb<-",
 #'
 #' @examples
 #' # Replacing chimeric file path of a sample object
-#' chim.file(sample.object) <- new.path
+#' #chim.file(sample.object) <- new.path
 #'
 #' @export
 setGeneric(name = "chim.file<-",
@@ -406,7 +423,7 @@ setGeneric(name = "chim.file<-",
 #'
 #' @examples
 #' # Replacing BAM file path of a sample object
-#' bam.file(sample.object) <- new.path
+#' #bam.file(sample.object) <- new.path
 #'
 #' @export
 setGeneric(name = "bam.file<-",
@@ -425,7 +442,7 @@ setGeneric(name = "bam.file<-",
 #'
 #' @examples
 #' # Replacing STAR alignment Log file path of a sample object
-#' log.file(sample.object) <- new.path
+#' #log.file(sample.object) <- new.path
 #'
 #' @export
 setGeneric(name = "log.file<-",
@@ -444,7 +461,7 @@ setGeneric(name = "log.file<-",
 #'
 #' @examples
 #' # Replacing Linear splice junctions file path of a sample object
-#' sj.file(sample.object) <- new.path
+#' #sj.file(sample.object) <- new.path
 #'
 #' @export
 setGeneric(name = "sj.file<-",
@@ -462,7 +479,7 @@ setGeneric(name = "sj.file<-",
 #'
 #' @examples
 #' # Replacing linear read count data file path of a sample object
-#' count.file(sample.object) <- new.path
+#' #count.file(sample.object) <- new.path
 #'
 #' @export
 setGeneric(name = "count.file<-",
@@ -481,10 +498,10 @@ setGeneric(name = "count.file<-",
 #'
 #' @examples
 #' # Replacing boolean value of whether reads are firstread-firststrand in a sample object
-#' firstread.firststrand(sample.object) <- new.logical
+#' #firstread.firststrand(sample.object) <- new.logical
 #'
 #' # Replacing boolean value whether reads are firstread-firststrand in each sample of an experiment
-#' firstread.firststrand(experiment.object) <- new.logical.vector
+#' #firstread.firststrand(experiment.object) <- new.logical.vector
 #'
 #' @export
 setGeneric(name = "firstread.firststrand<-",
@@ -503,10 +520,10 @@ setGeneric(name = "firstread.firststrand<-",
 #'
 #' @examples
 #' # Replacing boolean value whether reads are paired-end reads in a sample object
-#' paried.end(sample.object) <- new.logical
+#' #paried.end(sample.object) <- new.logical
 #'
 #' # Replacing logical value whether reads are paired-end reads in each sample of an experiment
-#' paried.end(experiment.object) <- new.logical.vector
+#' #paried.end(experiment.object) <- new.logical.vector
 #'
 #' @export
 setGeneric(name = "paired.end<-",
@@ -525,10 +542,10 @@ setGeneric(name = "paired.end<-",
 #'
 #' @examples
 #' # A datatable of the filtered backsplice junction read data in a sample object
-#' bsj.reads(sample.object) <- new.datatable
+#' #bsj.reads(sample.object) <- new.datatable
 #'
 #' # A datatable of the filtered backsplice junction read data in each sample of an experiment
-#' bsj.reads(experiment.object) <- new.datatable.list
+#' #bsj.reads(experiment.object) <- new.datatable.list
 #'
 #' @export
 setGeneric(name = "bsj.reads<-",
@@ -547,10 +564,10 @@ setGeneric(name = "bsj.reads<-",
 #'
 #' @examples
 #' # A datatable of the backsplice junction count data in a sample object
-#' bsj.counts(sample.object) <- new.datatable
+#' #bsj.counts(sample.object) <- new.datatable
 #'
 #' # A datatable of the backsplice junction count data in each sample of an experiment
-#' bsj.counts(experiment.object) <- new.datatable.list
+#' #bsj.counts(experiment.object) <- new.datatable.list
 #'
 #' @export
 setGeneric(name = "bsj.counts<-",
@@ -569,10 +586,10 @@ setGeneric(name = "bsj.counts<-",
 #'
 #' @examples
 #' # A datatable of the linear splice junction count data in a sample object
-#' lsj.counts(sample.object) <- new.datatable
+#' #lsj.counts(sample.object) <- new.datatable
 #'
 #' # A datatable of the linear splice junction count data in each sample of an experiment
-#' lsj.counts(experiment.object) <- new.datatable.list
+#' #lsj.counts(experiment.object) <- new.datatable.list
 #'
 #' @export
 setGeneric(name = "lsj.counts<-",
@@ -591,10 +608,10 @@ setGeneric(name = "lsj.counts<-",
 #'
 #' @examples
 #' # Replacing label of a sample object
-#' label(sample.object) <- .new.label
+#' #label(sample.object) <- .new.label
 #'
 #' # Replacing label in each sample of an experiment
-#' label(experiment.object) <- new.label.vector
+#' #label(experiment.object) <- new.label.vector
 #'
 #' @export
 setGeneric(name = "label<-",
@@ -614,7 +631,7 @@ setGeneric(name = "label<-",
 #'
 #' @examples
 #' # Replacing samples in an experiment
-#' samples(experiment.object) <- new.circSample.list
+#' #samples(experiment.object) <- new.circSample.list
 #'
 #' @export
 setGeneric(name = "samples<-",
@@ -633,7 +650,7 @@ setGeneric(name = "samples<-",
 #'
 #' @examples
 #' # Replacing the experiment name
-#' name(experiment.object) <- new.name
+#' #name(experiment.object) <- new.name
 #'
 #' @export
 setGeneric(name = "name<-",
@@ -648,9 +665,9 @@ setGeneric(name = "name<-",
 #' @return circExperiment object with populated sample-slot.
 #'
 #' @examples
-#' locateSamples(experiment.object)
+#' #locateSamples(experiment.object)
 #'
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom tibble tibble
 #' @export
 setGeneric(name = "locateSamples",
@@ -672,7 +689,7 @@ setGeneric(name = "locateSamples",
 #' @export
 #'
 #' @examples
-#' readBSJdata(testExperiment)
+#' #readBSJdata(testExperiment)
 setGeneric(name = "readBSJdata",
            def = function(object, chromosomes = c(1:22, "X", "Y"), cores = 1L, maxGenomicDist = 1e5, onlySpanning = TRUE, removeBadPairs = T, ...)
              standardGeneric("readBSJdata"))
@@ -689,7 +706,7 @@ setGeneric(name = "readBSJdata",
 #' @return Same as input object, but populated slot for lsj counts.
 #'
 #' @examples
-#' readLSJdata(object)
+#' #readLSJdata(object)
 #'
 #' @importFrom stringi stri_trans_char
 #' @importFrom readr read_tsv
@@ -711,8 +728,8 @@ setGeneric(name = "readLSJdata",
 #' @param cores Only supported on unix! Number of cores used for parallel processing for circExperiment objets.
 #'
 #' @examples
-#' kj <- constructSJDB(annotationDB = db)
-#' readBSJdata(object, known.junctions = kj, cores = 4)
+#' #kj <- constructSJDB(annotationDB = db)
+#' #readBSJdata(object, known.junctions = kj, cores = 4)
 #'
 #' @return List of linear splice junction count summaries (SJ.tab.out) for all samples stored in the circExperiment-object.
 #' @importFrom dplyr full_join
@@ -737,11 +754,11 @@ setGeneric(name = "compareToKnownJunctions",
 #' @examples
 #' # Do not run
 #' # Setup circSample or circExperiment object
-#' object <- circSample(...)
+#' #object <- circSample(...)
 #' # Load relevant data
-#' ...
+#' #...
 #' # Generate motifs
-#' object <- generateJunctionMotifs(object)
+#' #object <- generateJunctionMotifs(object)
 setGeneric(name = "generateJunctionMotifs",
            def = function(object, genome_seq, cores = 1L)
              standardGeneric("generateJunctionMotifs"))
@@ -757,7 +774,7 @@ setGeneric(name = "generateJunctionMotifs",
 #' @return A new object with shifted bsj.read data
 #'
 #' @examples
-#' adjustAlignment(object)
+#' #adjustAlignment(object)
 #'
 #'
 setGeneric(name = "adjustAlignment",
@@ -774,7 +791,7 @@ setGeneric(name = "adjustAlignment",
 #' @return Object with same class as input, but with bsj.count slot populated with data
 #'
 #' @examples
-#' summarizeBSJreads(object)
+#' #summarizeBSJreads(object)
 #'
 #' @importFrom dplyr group_by summarise
 #' @importFrom GenomicRanges GRanges
@@ -794,7 +811,7 @@ setGeneric(name = "summarizeBSJreads",
 #' @return Object with same class as input.
 #'
 #' @examples
-#' addFilter(object, filter)
+#' #addFilter(object, filter)
 #'
 #' @export
 setGeneric(name = "addFilter",
@@ -814,7 +831,7 @@ setGeneric(name = "addFilter",
 #' @return circSample or circExperiment with all data slots populated with processed data
 #'
 #' @examples
-#' circulaR(circExperiment)
+#' #circulaR(circExperiment)
 #'
 #' @export
 setGeneric(name = "circulaR",
@@ -832,7 +849,7 @@ setGeneric(name = "circulaR",
 #' @return A new circSample or circExperiment object, with a bsID column in the bsj.read datatable.
 #'
 #' @examples
-#' constructBsId(object)
+#' #constructBsId(object)
 #'
 #' @export
 setGeneric(name = "constructBsId",
@@ -851,7 +868,7 @@ setGeneric(name = "constructBsId",
 #' @return Datatable with STAR log file information
 #'
 #' @examples
-#' alignmentStats(object)
+#' #alignmentStats(object)
 #'
 #' @export
 setGeneric(name = "alignmentStats",
@@ -866,7 +883,7 @@ setGeneric(name = "alignmentStats",
 #' @return tibble with summary statistics.
 #'
 #' @examples
-#' bsjStats(object)
+#' #bsjStats(object)
 #'
 #' @importFrom plyr join_all
 #' @importFrom tidyr pivot_longer
@@ -889,7 +906,7 @@ setGeneric(name = "bsjStats",
 #' @return A plot
 #'
 #' @examples
-#' vizJunctions(testSample, symbol = "FIRRE")
+#' #vizJunctions(testSample, symbol = "FIRRE")
 #' @importFrom dplyr group_by summarise
 #' @importFrom BiocGenerics start end strand
 #' @importFrom GenomicRanges GRanges
@@ -944,8 +961,7 @@ setGeneric(name = "is.empty",
 #' @export
 #' @importFrom GenomicRanges GRanges
 #' @importFrom RSQLite dbReadTable
-#' @importFrom magrittr %>%
-#' @importFrom dplyr group_by summarise
+#' @importFrom dplyr group_by summarise %>%
 setGeneric(name = "constructSJDB",
            def = function(annotationDB, force = FALSE)
              standardGeneric("constructSJDB"))
@@ -991,11 +1007,10 @@ setGeneric(name = "bsReadCoverage",
 #'
 #' @examples
 #' # The samples of an experiment
-#' exprs(circExperiment)
+#' #exprs(circExperiment)
 #'
-#' @importFrom magrittr %>%
 #' @importFrom GenomicRanges mcols
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_rows %>%
 #' @importFrom tidyr spread
 #'
 #' @export

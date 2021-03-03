@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing Linear splice junctions file path of a sample object
-sj.file(sample.object) <- new.path
+#sj.file(sample.object) <- new.path
 
 }

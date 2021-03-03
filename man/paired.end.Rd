@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing whether the sample are
 }
 \examples{
 # The logical value whether the protocol yielded paired-end reads in a sample object
-paried.end(sample.object)
+#paried.end(sample.object)
 
 # The logical value whether the protocol yielded paired-end reads in each sample of an experiment
-paried.end(experiment.object)
+#paried.end(experiment.object)
 
 }

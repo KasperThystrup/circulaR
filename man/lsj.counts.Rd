@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the linear splice junc
 }
 \examples{
 # A datatable of the linear splice junction count data in a sample object
-lsj.counts(sample.object)
+#lsj.counts(sample.object)
 
 # A datatable of the linear splice junction count data in each sample of an experiment
-lsj.counts(experiment.object)
+#lsj.counts(experiment.object)
 
 }

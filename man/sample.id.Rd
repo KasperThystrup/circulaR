@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the sample.id(s) of ci
 }
 \examples{
 # The sample.id of a sample object
-sample.id(sample.object)
+#sample.id(sample.object)
 
 # The sample.id in each sample of an experiment
-sample.id(experiment.object)
+#sample.id(experiment.object)
 
 }

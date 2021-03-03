@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing STAR alignment Log file path of a sample object
-log.file(sample.object) <- new.path
+#log.file(sample.object) <- new.path
 
 }

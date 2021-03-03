@@ -32,5 +32,5 @@ Same as input object, but populated slot for bsj data.
 The function takes a circSample or circExperiment object and reads the chimeric data for samples described in these objects.
 }
 \examples{
-readBSJdata(testExperiment)
+#readBSJdata(testExperiment)
 }

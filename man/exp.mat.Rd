@@ -19,6 +19,6 @@ circExperiment class accessors for expression data from a circExperiment
 }
 \examples{
 # The samples of an experiment
-exprs(circExperiment)
+#exprs(circExperiment)
 
 }

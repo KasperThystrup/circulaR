@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing label of a sample object
-label(sample.object) <- .new.label
+#label(sample.object) <- .new.label
 
 # Replacing label in each sample of an experiment
-label(experiment.object) <- new.label.vector
+#label(experiment.object) <- new.label.vector
 
 }

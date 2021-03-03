@@ -15,9 +15,8 @@
 #' df <- readChimFile(file = "~/projects/circulaR/misc/sub.Chimeric.out.junction") ## Replace with 'data(ExampleJunctions)'
 #' df <- addKnownJunctions(cbs = df, kj = sjdb)
 #' }
-#' @importFrom dplyr filter bind_cols bind_rows inner_join left_join right_join
+#' @importFrom dplyr filter bind_cols bind_rows inner_join left_join right_join %>%
 #' @importFrom GenomicRanges GRanges nearest
-#' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
 #' @importFrom S4Vectors mcols
 #' @export

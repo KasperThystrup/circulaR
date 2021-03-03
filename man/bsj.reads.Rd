@@ -19,9 +19,9 @@ circSample and circExperiment class accessors for showing the filtered backsplic
 }
 \examples{
 # A datatable of the filtered backsplice junction read data in a sample object
-bsj.reads(sample.object)
+#bsj.reads(sample.object)
 
 # A datatable of the filtered backsplice junction read data in each sample of an experiment
-bsj.reads(experiment.object)
+#bsj.reads(experiment.object)
 
 }

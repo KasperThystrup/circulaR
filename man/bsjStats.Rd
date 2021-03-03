@@ -16,6 +16,6 @@ tibble with summary statistics.
 Make summary statistics of the chimeric/backspliced reads.
 }
 \examples{
-bsjStats(object)
+#bsjStats(object)
 
 }

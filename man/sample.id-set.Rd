@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing sample.id of a sample object
-sample.id(sample.object) <- sample.id
+#sample.id(sample.object) <- sample.id
 
 # Replacing sample.id in each sample of an experiment
-sample.id(experiment.object) <- sample.id.vector
+#sample.id(experiment.object) <- sample.id.vector
 
 }

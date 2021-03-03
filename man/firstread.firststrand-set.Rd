@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing boolean value of whether reads are firstread-firststrand in a sample object
-firstread.firststrand(sample.object) <- new.logical
+#firstread.firststrand(sample.object) <- new.logical
 
 # Replacing boolean value whether reads are firstread-firststrand in each sample of an experiment
-firstread.firststrand(experiment.object) <- new.logical.vector
+#firstread.firststrand(experiment.object) <- new.logical.vector
 
 }

@@ -18,6 +18,6 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # Replacing the experiment name
-name(experiment.object) <- new.name
+#name(experiment.object) <- new.name
 
 }

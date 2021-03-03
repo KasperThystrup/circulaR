@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing the sample label(s)
 }
 \examples{
 # The label of a sample object
-label(sample.object)
+#label(sample.object)
 
 # The label in each sample of an experiment
-label(experiment.object)
+#label(experiment.object)
 
 }

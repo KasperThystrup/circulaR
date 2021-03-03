@@ -19,6 +19,6 @@ circExperiment class accessors for showing the experiment name
 }
 \examples{
 # The experiment name
-name(experiment.object)
+#name(experiment.object)
 
 }

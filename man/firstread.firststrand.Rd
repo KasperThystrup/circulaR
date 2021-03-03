@@ -17,9 +17,9 @@ circSample and circExperiment class accessors for showing whether the sample are
 }
 \examples{
 # The logical value whether the protocol yielded firstread-firststrand reads in a sample object
-firstread.firststrand(sample.object)
+#firstread.firststrand(sample.object)
 
 # The logical value whether the protocol yielded firstread-firststrand reads in each sample of an experiment
-firstread.firststrand(experiment.object)
+#firstread.firststrand(experiment.object)
 
 }

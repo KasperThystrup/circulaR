@@ -36,7 +36,7 @@ junctionMotif <- function(bsids, g = Hsapiens){
 #' @param file Path to file.
 #' @inheritDotParams readr::read_tsv n_max
 #' @examples
-#' tmp <- readChimFile(fn = "Chimeric.out.junction")
+#' #tmp <- readChimFile(fn = "Chimeric.out.junction")
 #' @return Tibble data frame with data on chimeric reads
 #' @importFrom readr read_tsv cols col_character col_integer
 #' @export
@@ -580,8 +580,7 @@ addLinCounts <- function(cbj = cbj.sum, sj = sj.data){
 #' @param eBt A GRangesList of exons-by-transcript, generated using the exonsBy-function.
 #' @return GRanges object or list of GRanges obejcts giving the inferred exon structure of a circRNA identified by the supplied backsplice ID.
 #' @importFrom GenomicRanges strand
-#' @importFrom dplyr inner_join
-#' @importFrom magrittr %>%
+#' @importFrom dplyr inner_join %>%
 #' @importFrom IRanges subsetByOverlaps
 #' @importFrom S4Vectors mcols
 #' @export
@@ -636,9 +635,9 @@ inferExons <- function(bsid, eBt){
 #' @param file Path to file.
 #' @inheritDotParams readr::read_tsv n_max
 #' @examples
-#' tmp <- readChimFile(fn = "Chimeric.out.junction")
+#' #tmp <- readChimFile(fn = "Chimeric.out.junction")
 #' @return Tibble data frame with data on chimeric reads
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom readr read_lines
 #' @export
 STARlogParser <- function(file, return = "All"){

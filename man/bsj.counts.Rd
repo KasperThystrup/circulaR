@@ -21,9 +21,9 @@ circSample and circExperiment class accessors for showing the backsplice junctio
 }
 \examples{
 # A datatable of the backsplice junction count data in a sample object
-bsj.counts(sample.object)
+#bsj.counts(sample.object)
 
 # A datatable of the backsplice junction count data in each sample of an experiment
-bsj.counts(experiment.object)
+#bsj.counts(experiment.object)
 
 }

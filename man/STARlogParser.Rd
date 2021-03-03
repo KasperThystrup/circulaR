@@ -22,5 +22,5 @@ Tibble data frame with data on chimeric reads
 Read and parse Log.final.out file
 }
 \examples{
-tmp <- readChimFile(fn = "Chimeric.out.junction")
+#tmp <- readChimFile(fn = "Chimeric.out.junction")
 }

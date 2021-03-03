@@ -39,5 +39,5 @@ A plot
 Visualize the linear and backsplice junction of a specific gene or genomic region in a specific sample.
 }
 \examples{
-vizJunctions(testSample, symbol = "FIRRE")
+#vizJunctions(testSample, symbol = "FIRRE")
 }

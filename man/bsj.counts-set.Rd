@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # A datatable of the backsplice junction count data in a sample object
-bsj.counts(sample.object) <- new.datatable
+#bsj.counts(sample.object) <- new.datatable
 
 # A datatable of the backsplice junction count data in each sample of an experiment
-bsj.counts(experiment.object) <- new.datatable.list
+#bsj.counts(experiment.object) <- new.datatable.list
 
 }

@@ -16,6 +16,6 @@ Datatable with STAR log file information
 Parse STAR alignment log files, and extract alignment stats.
 }
 \examples{
-alignmentStats(object)
+#alignmentStats(object)
 
 }

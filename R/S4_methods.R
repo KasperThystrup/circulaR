@@ -238,7 +238,6 @@ setMethod(f = "label",
 #' # The samples of an experiment
 #' samples(experiment.object)
 #'
-#' @importFrom Biobase samples
 #' @export
 setMethod(f = "samples",
           signature = "circExperiment",

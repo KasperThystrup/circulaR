@@ -19,6 +19,6 @@ circExperiment class accessors for showing the experiment main path
 }
 \examples{
 # The main path to the experiment
-path(experiment.object)
+#path(experiment.object)
 
 }

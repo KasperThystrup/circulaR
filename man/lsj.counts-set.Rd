@@ -18,9 +18,9 @@ The replacment value must be valid to enable replacement
 }
 \examples{
 # A datatable of the linear splice junction count data in a sample object
-lsj.counts(sample.object) <- new.datatable
+#lsj.counts(sample.object) <- new.datatable
 
 # A datatable of the linear splice junction count data in each sample of an experiment
-lsj.counts(experiment.object) <- new.datatable.list
+#lsj.counts(experiment.object) <- new.datatable.list
 
 }

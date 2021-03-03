@@ -33,6 +33,6 @@ The foo functions ...
 }
 
 \examples{
-circulaR(circExperiment)
+#circulaR(circExperiment)
 
 }

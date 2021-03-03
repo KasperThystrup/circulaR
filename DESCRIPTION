@@ -31,7 +31,6 @@ Imports:
     Rsamtools (>= 2.4.0),
     RSQLite (>= 2.2.1),
     S4Vectors (>= 0.26.1),
-    stringi (>= 1.5.3),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2),
     stringi (>= 1.5.3)
