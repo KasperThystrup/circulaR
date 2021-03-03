@@ -31,11 +31,10 @@
 #' # Execute with circExperiment object using 10 cores
 #' bsjExonStats(object = circ_exp, annot = ahdb, ncores = 10L)
 #'
-#' @import IRanges
-#' @import GenomicRanges
+#' @importFrom IRanges findOverlaps reduce width
 #' @importFrom ensembldb exonsBy
 #' @importFrom pbmcapply pbmclapply
-#' @importFrom tidyr tibble
+#' @importFrom tibble tibble
 #'
 setGeneric(name = "bsjExonStats",
            def = function(object, ...)
@@ -114,7 +113,7 @@ setMethod(
       exon.size <- IRanges::width(covered.exons) %>%
         sum
 
-      output <- tidyr::tibble(bsID = circ$bsID,
+      output <- tibble::tibble(bsID = circ$bsID,
                               exonic_size = exon.size,
                               exon_count = exon.count)
 

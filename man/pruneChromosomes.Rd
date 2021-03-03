@@ -17,3 +17,6 @@ Same as input, but with certin chromosomes removed.
 \description{
 Define which chromosomes to use from genomic annotation object, default `NULL` does not exclude any chromosomes
 }
+\examples{
+pruneChromosomes(db, chromosomes = c(1:22, x, y)
+}

@@ -15,7 +15,7 @@ setMethod(f = "sample.id",
           })
 
 
-
+#' @importFrom BiocGenerics organism
 setMethod(f = "organism",
           signature = "circSample",
           definition = function(object){
@@ -23,6 +23,7 @@ setMethod(f = "organism",
           })
 
 
+#' @importFrom BiocGenerics organism
 setMethod(f = "organism",
           signature = "circExperiment",
           definition = function(object){
@@ -163,7 +164,7 @@ setMethod(f = "bsj.reads",
                   o$sample.id <- sample.id(object)[i]
                   return(o)
                 }
-              ) %>% bind_rows()
+              ) %>% dplyr::bind_rows()
             } else {
               output <- lapply(samples(object), bsj.reads)
             }
@@ -177,7 +178,7 @@ setMethod(f = "bsj.counts",
             if (returnAs == "list"){
               return(object@bsj.counts)
             } else if (returnAs == "gr") {
-              return(GRanges(object@bsj.counts))
+              return(GenomicRanges::GRanges(object@bsj.counts))
             }
           })
 
@@ -192,7 +193,7 @@ setMethod(f = "bsj.counts",
             if (returnAs == "list") {
               return(output)
             } else if (returnAs == "gr") {
-              return(GRangesList(output))
+              return(GenomicRanges::GRangesList(output))
             }
           })
 
@@ -258,11 +259,11 @@ setMethod(f = "exp.mat",
               dplyr::bind_rows(.id = "sample")
 
             if(!is.null(normFactors)){
-              output <- output %>% group_by(sample) %>% mutate(count = count/normFactors[sample])
+              output <- output %>% dplyr::group_by(sample) %>% dplyr::mutate(count = count/normFactors[sample])
             }
 
             if(format == "wide"){
-              output <- output %>% tidyr::spread(sample, count)
+              output <- output %>% tidyr::pivot_wider(names_from = sample, values_from = count)   ###! CHECK Changed from spread(x,y) to pivot_wider(names_from = x, values_from = y)
             }
             return(tibble::as_tibble(output))
           })
@@ -302,7 +303,7 @@ setMethod(f = "sample.id<-",
 
             if (length(value) != length(samples(object))){
               stop("Number of samples do not match number of sample IDs!")
-            } else if (any(duplicated(value))){
+            } else if (any(BiocGenerics::duplicated(value))){
               stop("Sample IDs must be unique!")
             }
 
@@ -317,7 +318,7 @@ setMethod(f = "sample.id<-",
           }
 )
 
-#' @importFrom BiocGenerics organism
+#' @importFrom BiocGenerics organism organism<-
 setMethod(f = "organism<-",
           signature = "circSample",
           definition = function(object, value){
@@ -631,7 +632,7 @@ setMethod(f = "label<-",
           definition = function(object, value){
             if (length(value) != length(samples(object))){
               stop("Number of samples do not match number of labels.")
-            } else if (any(duplicated(value))){
+            } else if (any(BiocGenerics::duplicated(value))){
               stop("Labels must be unique!")
             }
             samples(object) <- lapply(seq_along(samples(object)), function(i){
@@ -655,7 +656,7 @@ setMethod(f = "samples<-",
           })
 
 
-#' @importFrom BiocGenerics path
+#' @importFrom BiocGenerics path path<-
 setMethod(f = "path<-",
           signature = "circExperiment",
           definition = function(object, value){
@@ -704,7 +705,7 @@ setMethod(
     while(dupli){
       sn <- lapply(sn.split, function(x)x[(length(x)-i):length(x)]) %>% sapply(function(y)paste0(y, collapse="_"))
       i<-i+1
-      dupli <- any(duplicated(sn))
+      dupli <- any(BiocGenerics::duplicated(sn))
     }
 
     # Construct table of samples
@@ -1081,15 +1082,23 @@ setMethod(
 
     # Count amount of reads that covers unique backsplice sites
     df <- bsj.reads(object)
-    if(applyFilter){
-      df <- df[df$include.read,]
+    if(applyFilter) {
+      # Handle too strict filters
+      if (!any(df$include.read)){
+        output <- GenomicRanges::GRanges(
+          bsID = NA,
+          count = NA
+        )
+
+      } else {
+        df <- df[df$include.read,]
+        df <- df %>% dplyr::group_by(bsID) %>% dplyr::summarise(count = dplyr::n())
+
+        # Convert to GRanges
+        output <- bsid2gr(df$bsID)
+        output$count <- df$count
+      }
     }
-
-    df <- df %>% dplyr::group_by(bsID) %>% dplyr::summarise(count = n())
-
-    # Convert to GRanges
-    output <- bsid2gr(df$bsID)
-    output$count <- df$count
 
     bsj.counts(object) <- output
     return(object)
@@ -1240,7 +1249,7 @@ setMethod(f = "alignmentStats",
             output <- plyr::join_all(output, by = "stat", type = "left")
 
             if (out_type == "long"){
-              output <- pivot_longer(
+              output <- tidyr::pivot_longer(
                 data = output, cols = -stat,
                 names_to = "sample", values_to = "value"
               )
@@ -1315,9 +1324,9 @@ setMethod(
   f = "vizJunctions", signature = "circSample",
   definition = function(object, ...) {
 
-    if (circulaR::is.empty(bsj.counts(object)))
+    if (is.empty(bsj.counts(object)))
       stop("Please load chimeric data.")
-    if (circulaR::is.empty(lsj.counts(object)))
+    # if (is.empty(lsj.counts(object)))
       stop("Please load linear splice data.")
     if (is.null(symbol) & is.null(range))
       stop("Please tell me what to plot.")
@@ -1363,7 +1372,7 @@ setMethod(
 
         }
       } else {
-        if (length(reduce(r)) != 1)
+        if (length(IRanges::reduce(r)) != 1)
           stop("Looks like multiple genomic regions.")
 
         # Construct genomic range corresponding to gene
@@ -1389,19 +1398,19 @@ setMethod(
       gr.tr <- Gviz::GeneRegionTrack(gr, name = paste0(s, " models"))
 
       # Get the splicing data
-      lsj <- suppressWarnings(subsetByOverlaps(lsj.counts(object), r))
-      lsj <- lsj[strand(lsj) == strand(r)]
+      lsj <- suppressWarnings(IRanges::subsetByOverlaps(lsj.counts(object), r))
+      lsj <- lsj[BiocGenerics::strand(lsj) == BiocGenerics::strand(r)]
 
-      bsj <- suppressWarnings(subsetByOverlaps(bsj.counts(object), r))
+      bsj <- suppressWarnings(IRanges::subsetByOverlaps(bsj.counts(object), r))
 
       if (!is.null(xlim)) {
-        start(r) <- min(xlim)
-        end(r) <- max(xlim)
+        BiocGenerics::start(r) <- min(xlim)
+        BiocGenerics::end(r) <- max(xlim)
       }
 
       if (onlyJunctionsWithinRange) {
-        lsj <- suppressWarnings(subsetByOverlaps(lsj, r, type = "within"))
-        bsj <- suppressWarnings(subsetByOverlaps(bsj, r, type = "within"))
+        lsj <- suppressWarnings(IRanges::subsetByOverlaps(lsj, r, type = "within"))
+        bsj <- suppressWarnings(IRanges::subsetByOverlaps(bsj, r, type = "within"))
       }
 
       if (!is.null(validExonModels)) {
@@ -1420,7 +1429,7 @@ setMethod(
       tr.list <- c(bsj.tr, gr.tr, sj.tr)
 
       # Setup tracks for plotting
-      if (as.character(strand(r)) == "+") {
+      if (as.character(BiocGenerics::strand(r)) == "+") {
         if (!is.null(validExonModels)) {
           # Insert before lastposition
           tr.list <- c(
@@ -1437,7 +1446,7 @@ setMethod(
           )
         }
       }
-      if (as.character(strand(r)) == "-") {
+      if (as.character(BiocGenerics::strand(r)) == "-") {
         if (!is.null(validExonModels)) {
           # Insert at 2nd position
           tr.list <- c(
@@ -1456,12 +1465,12 @@ setMethod(
         }
       }
 
-      header <- paste0(paste(s, collapse = "; "), ", ", seqnames(r), ":", start(r), "-", end(r), ":", strand(r))
+      header <- paste0(paste(s, collapse = "; "), ", ", GenomeInfoDb::seqnames(r), ":", BiocGenerics::start(r), "-", BiocGenerics::end(r), ":", BiocGenerics::strand(r))
       si <- rep(1, length(tr.list))
       si[sapply(tr.list, names) == "Exon Models"] <- 0.5
 
       if (is.null(path)) {
-        Gviz::plotTracks(tr.list, from = start(r), to = end(r), sizes = si, main = header, cex.main = 1, fontfamily = "Arial")
+        Gviz::plotTracks(tr.list, from = BiocGenerics::start(r), to = BiocGenerics::end(r), sizes = si, main = header, cex.main = 1, fontfamily = "Arial")
       } else {
         suffix <- paste0(sample.id(object), "_", s, "_", r, ".", device)
         if (is.null(prefix)) {
@@ -1470,7 +1479,7 @@ setMethod(
           fn <- file.path(path, paste0(prefix, suffix))
         }
         do.call(device, args = list(filename = fn, ...))
-        Gviz::plotTracks(tr.list, from = start(r), to = end(r), sizes = si, main = header, cex.main = 1, fontfamily = "Arial")
+        Gviz::plotTracks(tr.list, from = BiocGenerics::start(r), to = BiocGenerics::end(r), sizes = si, main = header, cex.main = 1, fontfamily = "Arial")
         dev.off()
       }
     }
@@ -1619,14 +1628,14 @@ setMethod(f = "getKnownJunctions",
             )
 
             known.junctions <- c(
-              GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["start"]]-1, width = 1),
+              GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
+                      ranges = IRanges::IRanges(start = annot[,colN["start"]]-1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "acceptor", "donor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],
                       ensembl_transcript_id = annot$TXNAME),
-              GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["end"]]+1, width = 1),
+              GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
+                      ranges = IRanges::IRanges(start = annot[,colN["end"]]+1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "donor", "acceptor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],
@@ -1662,14 +1671,14 @@ setMethod(f = "getKnownJunctions",
             )
 
             known.junctions <- c(
-              GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["start"]]-1, width = 1),
+              GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
+                      ranges = IRanges::IRanges(start = annot[,colN["start"]]-1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "acceptor", "donor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],
                       ensembl_transcript_id = annot$TXNAME),
-              GRanges(seqnames = annot[,colN["seqname"]],
-                      ranges = IRanges(start = annot[,colN["end"]]+1, width = 1),
+              GenomicRanges::GRanges(seqnames = annot[,colN["seqname"]],
+                      ranges = IRanges::IRanges(start = annot[,colN["end"]]+1, width = 1),
                       strand = annot[,colN["strand"]],
                       type = ifelse(annot[,colN["strand"]] == "+" | annot[,colN["strand"]] == 1, "donor", "acceptor"),
                       ensembl_gene_id = annot[,colN["gene_id"]],

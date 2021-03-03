@@ -17,3 +17,12 @@ an updated circSample or circExperiment object
 \description{
 Generates splice motif sequences and adds them t the backsplice junction datatable
 }
+\examples{
+# Do not run
+# Setup circSample or circExperiment object
+object <- circSample(...)
+# Load relevant data
+...
+# Generate motifs
+object <- generateJunctionMotifs(object)
+}

@@ -1,5 +1,4 @@
 ################################ Accessor methods #################################
-
 #' Accessor for sample.id
 #'
 #' circSample and circExperiment class accessors for showing the sample.id(s) of cicSample object(s)
@@ -21,26 +20,27 @@ setGeneric(name = "sample.id",
              standardGeneric("sample.id"))
 
 
-#' Accessor for organism
-#'
-#' circSample and circExperiment class accessors for showing the organism(s) of cicSample object(s)
-#'
-#' @param object circSample or circExperiment object
-#'
-#' @return Character vector with organism(s)
-#'
-#' @examples
-#' # The organism of a sample object
-#' organism(sample.object)
-#'
-#' # The organism in each sample of an experiment
-#' organism(experiment.object)
-#' @importFrom GenomeInfoDb organism
-#' @export
-setGeneric(name = "organism",
-           def = function(object)
-             standardGeneric("organism"))
-
+# Accessor for organism
+#
+# circSample and circExperiment class accessors for showing the organism(s) of circSample object(s)
+#
+# @param object circSample or circExperiment object
+#
+# @return Character vector with organism(s)
+#
+# @examples
+# # The organism of a sample object
+# organism(sample.object)
+#
+# # The organism in each sample of an experiment
+# organism(experiment.object)
+# @importFrom BiocGenerics organism
+# @export
+NULL
+#setGeneric(name = "organism",
+#           def = function(object)
+#             standardGeneric("organism"))
+###! CHECK Can we remove this entirely?
 
 #' Accessor for genome build
 #'
@@ -271,7 +271,6 @@ setGeneric(name = "bsj.counts",
 #' lsj.counts(experiment.object)
 #'
 #' @export
-#' @import dplyr
 setGeneric(name = "lsj.counts",
            def = function(object)
              standardGeneric("lsj.counts"))
@@ -309,7 +308,6 @@ setGeneric(name = "label",
 #' # The main path to the experiment
 #' path(experiment.object)
 #'
-#' @import BiocGenerics
 #' @export
 setGeneric(name = "path",
            def = function(object)
@@ -737,6 +735,13 @@ setGeneric(name = "compareToKnownJunctions",
 #' @importFrom tibble add_column
 #'
 #' @examples
+#' # Do not run
+#' # Setup circSample or circExperiment object
+#' object <- circSample(...)
+#' # Load relevant data
+#' ...
+#' # Generate motifs
+#' object <- generateJunctionMotifs(object)
 setGeneric(name = "generateJunctionMotifs",
            def = function(object, genome_seq, cores = 1L)
              standardGeneric("generateJunctionMotifs"))
@@ -784,7 +789,7 @@ setGeneric(name = "summarizeBSJreads",
 #'
 #' @param object circSample or circExperiment object
 #' @param filter A logical vector (circSample) or list of logical vectors (circExperiment) indicating which bsj.reads should be included in downstream analyses.
-#' @param mode Character, "strict" sets new filter value to FALSE if either the previous \cide{include.read} or new filter value is \code{FALSE}. "last" overwrites values with the new regardles of previous value.
+#' @param mode Character, "strict" sets new filter value to FALSE if either the previous \cite{include.read} or new filter value is \code{FALSE}. "last" overwrites values with the new regardles of previous value.
 #'
 #' @return Object with same class as input.
 #'
@@ -864,7 +869,7 @@ setGeneric(name = "alignmentStats",
 #' bsjStats(object)
 #'
 #' @importFrom plyr join_all
-#' @import tidyr
+#' @importFrom tidyr pivot_longer
 #' @export
 setGeneric(name = "bsjStats",
            def = function(object, out_type = "wide", ...)
@@ -886,9 +891,11 @@ setGeneric(name = "bsjStats",
 #' @examples
 #' vizJunctions(testSample, symbol = "FIRRE")
 #' @importFrom dplyr group_by summarise
+#' @importFrom BiocGenerics start end strand
 #' @importFrom GenomicRanges GRanges
+#' @importFrom GenomeInfoDb seqnames
 #' @importFrom ensembldb genes getGeneRegionTrackForGviz
-#' @importFrom IRanges subsetByOverlaps
+#' @importFrom IRanges subsetByOverlaps reduce
 #' @export
 setGeneric(name = "vizJunctions",
            def = function(object, symbol = NULL, range = NULL, db, xlim = NULL,

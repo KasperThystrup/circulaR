@@ -118,9 +118,9 @@ checkPEReads <- function(df, endTol = 5){
 
 
   # # Construct GRanges of region between backsplice sites
-  # circ.region <- GRanges(
+  # circ.region <- GenomicRanges::GRanges(
   #   seqnames = df$X1,
-  #   ranges = IRanges(
+  #   ranges = IRanges::IRanges(
   #     start = ifelse(df$X2 < df$X5, df$X2, df$X5),
   #     end = ifelse(df$X2 < df$X5, df$X5, df$X2)
   #   ),
@@ -129,18 +129,18 @@ checkPEReads <- function(df, endTol = 5){
   # circ.region <- circ.region + endTol # Expand the region according to the end tolerance
   #
   # # Construct GRanges objects of the regions covered by the two fragments of the chimeric read
-  # cigarRegion1 <- GRanges(
+  # cigarRegion1 <- GenomicRanges::GRanges(
   #   seqnames = df$X1,
-  #   ranges = IRanges(
+  #   ranges = IRanges::IRanges(
   #     start = df$X11,
   #     end = df$X11 + sapply(df$X12, parseCIGAR, returnLength = T) - 1
   #   ),
   #   strand = df$X3
   # )
   #
-  # cigarRegion2 <- GRanges(
+  # cigarRegion2 <- GenomicRanges::GRanges(
   #   seqnames = df$X1,
-  #   ranges = IRanges(
+  #   ranges = IRanges::IRanges(
   #     start = df$X13,
   #     end = df$X13 + sapply(df$X14, parseCIGAR, returnLength = T) - 1
   #   ),
