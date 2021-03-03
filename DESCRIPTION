@@ -11,7 +11,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 4.0)
+    R (>= 4.0.3)
 Imports:
     AnnotationDbi (>= 1.50.3),
     BiocGenerics (>= 0.34.0),
@@ -53,7 +53,6 @@ Collate:
     'chimeric_data_manipulation.r'
     'circRNA_annotation.r'
     'circulaR.r'
-    'data_io.r'
     'helper_functions.r'
     'plot_functions.r'
     'statistics.R'
