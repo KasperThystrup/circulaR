@@ -33,7 +33,8 @@ Imports:
     S4Vectors (>= 0.26.1),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2),
-    stringi (>= 1.5.3)
+    stringi (>= 1.5.3),
+    Hmisc (>= 4.0)
 RoxygenNote: 7.1.1
 Suggests:
     tidyverse,
