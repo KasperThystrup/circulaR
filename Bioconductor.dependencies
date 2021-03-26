@@ -1,0 +1,12 @@
+AnnotationDbi
+BiocGenerics
+BSgenome
+DESeq2
+ensembldb
+GenomeInfoDb
+GenomicFeatures
+GenomicRanges
+Gviz
+IRanges
+Rsamtools
+S4Vectors

@@ -70,7 +70,6 @@ This should install all dependencies from the official CRAN repository. However,
  * stringi
  * tibble
  * tidyr
- * Hmisc
 
 ```{r, eval=FALSE}
 install.packages(c("dplyr", "ggplot2", "parallel", "pbmcapply", "plyr", "readr", "RSQLite", "stringi", "tibble", "tidyr", "Hmisc"))

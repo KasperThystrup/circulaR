@@ -84,7 +84,6 @@ dependencies manually before running the install\_github command again:
 -   stringi
 -   tibble
 -   tidyr
--   Hmisc
 
 ``` r
 install.packages(c("dplyr", "ggplot2", "parallel", "pbmcapply", "plyr", "readr", "RSQLite", "stringi", "tibble", "tidyr", "Hmisc"))
